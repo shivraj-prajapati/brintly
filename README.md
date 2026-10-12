@@ -1,40 +1,75 @@
-# Brintly
+# React + TypeScript + Vite
 
-**From spreadsheets to structured documents.**
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Brintly is a web application that transforms Excel spreadsheets into validated financial records and professionally formatted, print-ready PDFs.
+Currently, two official plugins are available:
 
-## Overview
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-Upload an Excel workbook, select the required worksheet, map columns to financial fields, validate the data, apply business rules, and generate PDF documents with four financial cards per page.
+## React Compiler
 
-## Planned Features
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-- Excel workbook upload and worksheet selection
-- Column mapping and data preview
-- Financial data validation
-- Configurable business calculations and rules
-- Dynamic financial card generation
-- Four cards per PDF page
-- PDF preview and download
-- Clear validation errors and rejected-row reporting
+## Expanding the ESLint configuration
 
-## Planned Technology Stack
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-- React
-- TypeScript
-- Vite
-- SheetJS for Excel parsing
-- HTML/CSS-based PDF templates
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-## Project Status
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
 
-Currently in planning and initial development.
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 
-## Privacy
+```
 
-Financial data should be handled securely. Real company records and confidential information must not be committed to the repository.
+You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
 
-## License
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
-To be determined.
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+
+```
