@@ -1,17 +1,15 @@
 import React, { useState, useRef, useCallback } from 'react';
-import { UploadCloud, FileSpreadsheet, AlertCircle, Sparkles } from 'lucide-react';
+import { UploadCloud, FileSpreadsheet, AlertCircle } from 'lucide-react';
 import { Button } from '../../../components/ui/Button';
 
 export interface ExcelUploaderProps {
   onFileUpload: (file: File) => void;
-  onLoadDemo: () => void;
   isLoading?: boolean;
   error?: string | null;
 }
 
 export const ExcelUploader: React.FC<ExcelUploaderProps> = ({
   onFileUpload,
-  onLoadDemo,
   isLoading = false,
   error = null,
 }) => {
@@ -57,7 +55,7 @@ export const ExcelUploader: React.FC<ExcelUploaderProps> = ({
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full max-w-lg mx-auto space-y-3">
       <input
         ref={fileInputRef}
         type="file"
@@ -67,93 +65,70 @@ export const ExcelUploader: React.FC<ExcelUploaderProps> = ({
         disabled={isLoading}
       />
 
+      {/* Sleek, Compact Aesthetic Drop & Upload Card */}
       <div
         onDragEnter={handleDrag}
         onDragOver={handleDrag}
         onDragLeave={handleDrag}
         onDrop={handleDrop}
         onClick={openFileDialog}
-        className={`relative group cursor-pointer rounded-2xl border-2 border-dashed p-8 md:p-12 text-center transition-all duration-200 ${
+        className={`relative group cursor-pointer rounded-2xl border transition-all duration-200 p-4 sm:p-5 text-center bg-white/90 backdrop-blur-md shadow-card hover:shadow-xl ${
           isDragActive
-            ? 'border-emerald-500 bg-emerald-50/50 ring-4 ring-emerald-500/10'
-            : 'border-surface-200 hover:border-emerald-500/50 hover:bg-surface-50/50 bg-white'
+            ? 'border-emerald-500 bg-emerald-50/80 ring-4 ring-emerald-500/15 scale-[1.01]'
+            : 'border-surface-200 hover:border-emerald-400'
         }`}
       >
-        <div className="max-w-md mx-auto flex flex-col items-center">
-          {/* Icon Circle */}
-          <div
-            className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-5 transition-transform duration-200 group-hover:scale-105 ${
-              isDragActive
-                ? 'bg-emerald-600 text-white'
-                : 'bg-emerald-50 text-emerald-600 ring-1 ring-emerald-200'
-            }`}
-          >
-            {isDragActive ? (
-              <UploadCloud className="w-7 h-7 animate-pulse" />
-            ) : (
-              <FileSpreadsheet className="w-7 h-7" />
-            )}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
+          {/* Left: Icon + Label */}
+          <div className="flex items-center space-x-3 text-left">
+            <div
+              className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform group-hover:scale-105 ${
+                isDragActive
+                  ? 'bg-emerald-600 text-white'
+                  : 'bg-emerald-100 text-emerald-800'
+              }`}
+            >
+              {isDragActive ? (
+                <UploadCloud className="w-5 h-5 animate-pulse" />
+              ) : (
+                <FileSpreadsheet className="w-5 h-5" />
+              )}
+            </div>
+            <div>
+              <div className="text-sm font-extrabold text-surface-900 group-hover:text-emerald-700 transition-colors">
+                Upload Excel Salary Sheet
+              </div>
+              <p className="text-[11px] text-surface-500 leading-tight">
+                Drop <span className="font-mono text-surface-700 font-semibold">.xlsx</span> or <span className="font-mono text-surface-700 font-semibold">.xls</span> here, or click to browse
+              </p>
+            </div>
           </div>
 
-          {/* Heading & Subtext */}
-          <h3 className="text-base font-semibold text-surface-900 mb-1.5">
-            Upload your financial workbook
-          </h3>
-          <p className="text-xs text-surface-500 leading-relaxed mb-6">
-            Drag and drop your Excel spreadsheet here, or{' '}
-            <span className="text-emerald-700 font-medium underline underline-offset-2">
-              browse from your computer
-            </span>
-            . Supports both modern <span className="font-mono text-surface-700">.xlsx</span> and legacy{' '}
-            <span className="font-mono text-surface-700">.xls</span>.
-          </p>
-
-          {/* Primary Action Button */}
-          <div className="flex flex-wrap items-center justify-center gap-3" onClick={(e) => e.stopPropagation()}>
+          {/* Right: High-Contrast Dark Action Button (Payway Inspired) */}
+          <div className="flex-shrink-0 w-full sm:w-auto" onClick={(e) => e.stopPropagation()}>
             <Button
               type="button"
               variant="primary"
-              size="md"
+              size="sm"
               onClick={openFileDialog}
               isLoading={isLoading}
+              className="w-full sm:w-auto px-5 py-2.5 font-bold shadow-md hover:shadow-lg transition-all"
               leftIcon={<UploadCloud className="w-4 h-4" />}
             >
-              Select Spreadsheet
+              Choose Spreadsheet
             </Button>
-
-            <Button
-              type="button"
-              variant="outline"
-              size="md"
-              onClick={onLoadDemo}
-              disabled={isLoading}
-              leftIcon={<Sparkles className="w-4 h-4 text-emerald-600" />}
-            >
-              Load Demo Model
-            </Button>
-          </div>
-
-          {/* Constraints Footnote */}
-          <div className="mt-6 flex items-center space-x-4 text-[11px] text-surface-400">
-            <span>Max file size: 25 MB</span>
-            <span>•</span>
-            <span>Multi-sheet preserved</span>
-            <span>•</span>
-            <span>Formulas & numbers parsed</span>
           </div>
         </div>
       </div>
 
-      {/* Error Banner */}
+      {/* Error Feedback */}
       {error && (
-        <div className="mt-4 p-4 rounded-xl bg-red-50/80 border border-red-200 flex items-start space-x-3 text-red-800 text-xs animate-in fade-in">
-          <AlertCircle className="w-4 h-4 text-red-600 mt-0.5 flex-shrink-0" />
-          <div className="flex-1">
-            <p className="font-medium text-red-900">Upload failed</p>
-            <p className="mt-0.5 text-red-700">{error}</p>
-          </div>
+        <div className="p-3 bg-red-50/90 border border-red-200 rounded-xl flex items-center space-x-2.5 text-xs text-red-700 animate-in fade-in">
+          <AlertCircle className="w-4 h-4 flex-shrink-0 text-red-500" />
+          <span className="font-medium">{error}</span>
         </div>
       )}
     </div>
   );
 };
+

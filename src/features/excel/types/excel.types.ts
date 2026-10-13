@@ -1,3 +1,36 @@
+import type { CalculatedEmployeeRecord } from '../../calculations/salary-engine';
+
+export type SalaryInternalField =
+  | 'serialNumber'
+  | 'employeeName'
+  | 'dailyRate'
+  | 'days'
+  | 'hours'
+  | 'increase'
+  | 'grossAmount'
+  | 'advance'
+  | 'pf'
+  | 'netAmount'
+  | 'signature';
+
+export interface FieldDefinition {
+  field: SalaryInternalField;
+  labelEn: string;
+  labelHi: string;
+  required: boolean;
+  aliases: string[];
+}
+
+export type ColumnMapping = Record<SalaryInternalField, number | null>;
+
+export interface SheetSection {
+  id: string;
+  title: string;
+  startRow: number;
+  endRow: number;
+  employeeCount: number;
+}
+
 export interface CellValue {
   raw: string | number | boolean | null;
   formatted: string;
@@ -14,15 +47,21 @@ export interface SheetColumn {
   index: number;
   letter: string;
   header: string;
+  mappedField?: SalaryInternalField | null;
   typeHint?: 'currency' | 'number' | 'text' | 'date';
 }
 
 export interface SheetData {
   name: string;
+  companyTitle?: string;
   rowCount: number;
   columnCount: number;
   headers: SheetColumn[];
-  rows: SheetRow[];
+  rawRows: unknown[][];
+  headerRowIndex: number;
+  detectedMapping: ColumnMapping;
+  sections: SheetSection[];
+  employees: CalculatedEmployeeRecord[];
 }
 
 export interface WorkbookMeta {
@@ -39,11 +78,4 @@ export interface ParsedWorkbook {
   defaultSheet: string;
 }
 
-export type WorkflowStep = 'upload' | 'mapping' | 'calculation' | 'export';
-
-export interface PaginationConfig {
-  page: number;
-  pageSize: number;
-  totalRows: number;
-  totalPages: number;
-}
+export type WorkflowStep = 'upload' | 'inspect' | 'preview' | 'export';
