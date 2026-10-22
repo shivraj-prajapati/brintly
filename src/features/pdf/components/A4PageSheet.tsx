@@ -30,13 +30,14 @@ export const A4PageSheet: React.FC<A4PageSheetProps> = ({
 
   return (
     <div
-      className="a4-print-sheet relative bg-white mx-auto shadow-paper print:shadow-none border border-slate-200 print:border-none box-border select-none"
+      className="a4-print-sheet pdf-light-isolate relative bg-white text-slate-950 mx-auto shadow-paper print:shadow-none border border-slate-200 print:border-none box-border select-none"
       style={{
         width: '198mm',
         height: '284mm',
         maxWidth: '100%',
         margin: '0 auto',
         boxSizing: 'border-box',
+        colorScheme: 'light',
       }}
     >
       {/* 2x2 Grid of Slips with balanced margins & padding */}

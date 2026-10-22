@@ -72,10 +72,10 @@ export const ExcelUploader: React.FC<ExcelUploaderProps> = ({
         onDragLeave={handleDrag}
         onDrop={handleDrop}
         onClick={openFileDialog}
-        className={`relative group cursor-pointer rounded-2xl border transition-all duration-200 p-4 sm:p-5 text-center bg-white/90 backdrop-blur-md shadow-card hover:shadow-xl ${
+        className={`relative group cursor-pointer rounded-2xl border transition-all duration-200 p-4 sm:p-5 text-center bg-white/90 dark:bg-slate-900/90 backdrop-blur-md shadow-card hover:shadow-xl ${
           isDragActive
-            ? 'border-emerald-500 bg-emerald-50/80 ring-4 ring-emerald-500/15 scale-[1.01]'
-            : 'border-surface-200 hover:border-emerald-400'
+            ? 'border-emerald-500 bg-emerald-50/80 dark:bg-emerald-950/40 ring-4 ring-emerald-500/15 scale-[1.01]'
+            : 'border-surface-200 dark:border-slate-800 hover:border-emerald-400 dark:hover:border-emerald-600'
         }`}
       >
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
@@ -85,7 +85,7 @@ export const ExcelUploader: React.FC<ExcelUploaderProps> = ({
               className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform group-hover:scale-105 ${
                 isDragActive
                   ? 'bg-emerald-600 text-white'
-                  : 'bg-emerald-100 text-emerald-800'
+                  : 'bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60'
               }`}
             >
               {isDragActive ? (
@@ -95,11 +95,11 @@ export const ExcelUploader: React.FC<ExcelUploaderProps> = ({
               )}
             </div>
             <div>
-              <div className="text-sm font-extrabold text-surface-900 group-hover:text-emerald-700 transition-colors">
+              <div className="text-sm font-extrabold text-surface-900 dark:text-slate-100 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">
                 Upload Excel Salary Sheet
               </div>
-              <p className="text-[11px] text-surface-500 leading-tight">
-                Drop <span className="font-mono text-surface-700 font-semibold">.xlsx</span> or <span className="font-mono text-surface-700 font-semibold">.xls</span> here, or click to browse
+              <p className="text-[11px] text-surface-500 dark:text-slate-400 leading-tight">
+                Drop <span className="font-mono text-surface-700 dark:text-slate-300 font-semibold">.xlsx</span> or <span className="font-mono text-surface-700 dark:text-slate-300 font-semibold">.xls</span> here, or click to browse
               </p>
             </div>
           </div>

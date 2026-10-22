@@ -24,17 +24,17 @@ export const CalculationSettingsBar: React.FC<CalculationSettingsBarProps> = ({
   onPdfLanguageChange,
 }) => {
   return (
-    <div className="bg-white rounded-2xl border border-surface-200 p-5 shadow-subtle space-y-5">
+    <div className="bg-white dark:bg-slate-900 rounded-2xl border border-surface-200 dark:border-slate-800 p-5 shadow-subtle space-y-5 transition-colors">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* 1. Salary Calculation Mode */}
         <div className="space-y-2">
           <div className="flex items-center space-x-2">
-            <Calculator className="w-4 h-4 text-emerald-700" />
-            <label className="text-xs font-bold text-surface-900 uppercase tracking-wider">
+            <Calculator className="w-4 h-4 text-emerald-700 dark:text-emerald-400" />
+            <label className="text-xs font-bold text-surface-900 dark:text-slate-100 uppercase tracking-wider">
               Calculation Mode / गणना मोड
             </label>
           </div>
-          <p className="text-[11px] text-surface-500 leading-normal">
+          <p className="text-[11px] text-surface-500 dark:text-slate-400 leading-normal">
             Select gross salary source formula or uploaded cell value:
           </p>
 
@@ -42,8 +42,8 @@ export const CalculationSettingsBar: React.FC<CalculationSettingsBarProps> = ({
             <label
               className={`flex items-start space-x-2.5 p-2.5 rounded-xl border text-xs cursor-pointer transition-all ${
                 calculationMode === 'formula'
-                  ? 'border-emerald-600 bg-emerald-50/60 ring-1 ring-emerald-600/20'
-                  : 'border-surface-200 hover:bg-surface-50 bg-white'
+                  ? 'border-emerald-600 bg-emerald-50/60 dark:bg-emerald-950/40 ring-1 ring-emerald-600/20'
+                  : 'border-surface-200 dark:border-slate-800 hover:bg-surface-50 dark:hover:bg-slate-800 bg-white dark:bg-slate-900'
               }`}
             >
               <input

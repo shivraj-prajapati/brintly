@@ -108,7 +108,7 @@ export const InteractivePdfPreview: React.FC<InteractivePdfPreviewProps> = ({
       {/* =========================================================================
           1. TOP CONTROLS WORKBENCH (Unified Studio Header)
           ========================================================================= */}
-      <div className="bg-white rounded-2xl border border-surface-200 shadow-card p-4 space-y-3">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-surface-200 dark:border-slate-800 shadow-card p-4 space-y-3 transition-colors">
         {/* ROW 1: Navigation & Primary Actions */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           {/* Left: Back button & Document Metadata */}
@@ -124,15 +124,15 @@ export const InteractivePdfPreview: React.FC<InteractivePdfPreviewProps> = ({
 
             <div>
               <div className="flex items-center space-x-2">
-                <h2 className="text-sm sm:text-base font-extrabold text-surface-900 tracking-tight">
+                <h2 className="text-sm sm:text-base font-extrabold text-surface-900 dark:text-slate-100 tracking-tight">
                   A4 Salary Slips Studio
                 </h2>
-                <span className="text-[11px] px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold hidden sm:inline-flex items-center space-x-1">
-                  <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                <span className="text-[11px] px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-bold hidden sm:inline-flex items-center space-x-1">
+                  <CheckCircle2 className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
                   <span>2 × 2 Grid (4 Slips/Page)</span>
                 </span>
               </div>
-              <p className="text-[11px] text-surface-500 font-medium">
+              <p className="text-[11px] text-surface-500 dark:text-slate-400 font-medium">
                 {employees.length} employees included • {totalPages} A4 pages • Pre-calibrated cutting guides
               </p>
             </div>
@@ -145,7 +145,7 @@ export const InteractivePdfPreview: React.FC<InteractivePdfPreviewProps> = ({
               size="sm"
               onClick={handlePrint}
               disabled={isExportingPdf || employees.length === 0}
-              leftIcon={<Printer className="w-4 h-4 text-surface-700" />}
+              leftIcon={<Printer className="w-4 h-4 text-surface-700 dark:text-slate-300" />}
             >
               Print Slips
             </Button>
@@ -169,37 +169,37 @@ export const InteractivePdfPreview: React.FC<InteractivePdfPreviewProps> = ({
         </div>
 
         {/* ROW 2: Customization & Navigation Strip (Aligned & Clean) */}
-        <div className="pt-2.5 border-t border-surface-100 flex flex-wrap items-center justify-between gap-2.5">
+        <div className="pt-2.5 border-t border-surface-100 dark:border-slate-800 flex flex-wrap items-center justify-between gap-2.5">
           {/* Left: Template Pill (Browse 5 Previews) & Language Toggle */}
           <div className="flex items-center gap-2 flex-wrap">
             {onOpenTemplateGallery && (
               <button
                 type="button"
                 onClick={onOpenTemplateGallery}
-                className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border border-emerald-300 bg-emerald-50/70 hover:bg-emerald-100/80 text-emerald-900 text-xs font-bold transition-all shadow-2xs cursor-pointer group"
+                className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border border-emerald-300 dark:border-emerald-700/60 bg-emerald-50/70 dark:bg-emerald-950/60 hover:bg-emerald-100/80 dark:hover:bg-emerald-900/60 text-emerald-900 dark:text-emerald-300 text-xs font-bold transition-all shadow-2xs cursor-pointer group"
                 title="Browse live visual previews of all 5 templates side by side"
               >
-                <Palette className="w-3.5 h-3.5 text-emerald-700 group-hover:scale-110 transition-transform" />
-                <span className="text-surface-600 text-[11px] font-medium">Template:</span>
-                <span className="font-extrabold text-emerald-950">{currentTemplate?.name || 'Corporate Minimal'}</span>
-                <span className="text-[10px] bg-emerald-200/90 text-emerald-900 px-1.5 py-0.2 rounded font-black ml-0.5">
+                <Palette className="w-3.5 h-3.5 text-emerald-700 dark:text-emerald-400 group-hover:scale-110 transition-transform" />
+                <span className="text-surface-600 dark:text-slate-400 text-[11px] font-medium">Template:</span>
+                <span className="font-extrabold text-emerald-950 dark:text-emerald-200">{currentTemplate?.name || 'Corporate Minimal'}</span>
+                <span className="text-[10px] bg-emerald-200/90 dark:bg-emerald-900 text-emerald-900 dark:text-emerald-200 px-1.5 py-0.2 rounded font-black ml-0.5">
                   Browse 5 Previews
                 </span>
               </button>
             )}
 
             {/* Language Toggle */}
-            <div className="flex items-center bg-surface-50 border border-surface-200 rounded-xl p-0.5 text-xs">
-              <span className="px-1.5 text-surface-400">
-                <Languages className="w-3.5 h-3.5 text-emerald-600" />
+            <div className="flex items-center bg-surface-50 dark:bg-slate-800/80 border border-surface-200 dark:border-slate-700 rounded-xl p-0.5 text-xs">
+              <span className="px-1.5 text-surface-400 dark:text-slate-400">
+                <Languages className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
               </span>
               <button
                 type="button"
                 onClick={() => onLanguageChange('en')}
                 className={`px-2 py-1 rounded-lg text-xs transition-all cursor-pointer ${
                   language === 'en'
-                    ? 'bg-white text-surface-900 font-bold shadow-2xs border border-surface-200'
-                    : 'text-surface-500 hover:text-surface-800 font-medium'
+                    ? 'bg-white dark:bg-slate-900 text-surface-900 dark:text-slate-100 font-bold shadow-2xs border border-surface-200 dark:border-slate-700'
+                    : 'text-surface-500 dark:text-slate-400 hover:text-surface-800 dark:hover:text-slate-200 font-medium'
                 }`}
               >
                 EN
@@ -209,8 +209,8 @@ export const InteractivePdfPreview: React.FC<InteractivePdfPreviewProps> = ({
                 onClick={() => onLanguageChange('hi')}
                 className={`px-2 py-1 rounded-lg text-xs transition-all cursor-pointer ${
                   language === 'hi'
-                    ? 'bg-white text-emerald-900 font-bold shadow-2xs border border-surface-200'
-                    : 'text-surface-500 hover:text-surface-800 font-medium'
+                    ? 'bg-white dark:bg-slate-900 text-emerald-900 dark:text-emerald-300 font-bold shadow-2xs border border-surface-200 dark:border-slate-700'
+                    : 'text-surface-500 dark:text-slate-400 hover:text-surface-800 dark:hover:text-slate-200 font-medium'
                 }`}
               >
                 हिंदी
@@ -221,12 +221,14 @@ export const InteractivePdfPreview: React.FC<InteractivePdfPreviewProps> = ({
           {/* Right: Pagination Controls & Zoom Options */}
           <div className="flex items-center gap-2.5 ml-auto flex-wrap">
             {/* Zoom Selector */}
-            <div className="hidden sm:flex items-center space-x-1 bg-surface-50 border border-surface-200 rounded-xl p-0.5 text-xs">
+            <div className="hidden sm:flex items-center space-x-1 bg-surface-50 dark:bg-slate-800/80 border border-surface-200 dark:border-slate-700 rounded-xl p-0.5 text-xs">
               <button
                 type="button"
                 onClick={() => setZoomLevel(0.48)}
                 className={`px-2 py-1 rounded-lg text-[11px] font-medium transition-all ${
-                  zoomLevel === 0.48 ? 'bg-white font-bold shadow-2xs text-surface-900' : 'text-surface-500 hover:text-surface-800'
+                  zoomLevel === 0.48
+                    ? 'bg-white dark:bg-slate-900 font-bold shadow-2xs text-surface-900 dark:text-slate-100 border border-surface-200 dark:border-slate-700'
+                    : 'text-surface-500 dark:text-slate-400 hover:text-surface-800 dark:hover:text-slate-200'
                 }`}
                 title="Fit"
               >
@@ -236,7 +238,9 @@ export const InteractivePdfPreview: React.FC<InteractivePdfPreviewProps> = ({
                 type="button"
                 onClick={() => setZoomLevel(0.72)}
                 className={`px-2 py-1 rounded-lg text-[11px] font-medium transition-all ${
-                  zoomLevel === 0.72 ? 'bg-white font-bold shadow-2xs text-surface-900' : 'text-surface-500 hover:text-surface-800'
+                  zoomLevel === 0.72
+                    ? 'bg-white dark:bg-slate-900 font-bold shadow-2xs text-surface-900 dark:text-slate-100 border border-surface-200 dark:border-slate-700'
+                    : 'text-surface-500 dark:text-slate-400 hover:text-surface-800 dark:hover:text-slate-200'
                 }`}
               >
                 75%
@@ -245,7 +249,9 @@ export const InteractivePdfPreview: React.FC<InteractivePdfPreviewProps> = ({
                 type="button"
                 onClick={() => setZoomLevel(0.85)}
                 className={`px-2 py-1 rounded-lg text-[11px] font-medium transition-all ${
-                  zoomLevel === 0.85 ? 'bg-white font-bold shadow-2xs text-surface-900' : 'text-surface-500 hover:text-surface-800'
+                  zoomLevel === 0.85
+                    ? 'bg-white dark:bg-slate-900 font-bold shadow-2xs text-surface-900 dark:text-slate-100 border border-surface-200 dark:border-slate-700'
+                    : 'text-surface-500 dark:text-slate-400 hover:text-surface-800 dark:hover:text-slate-200'
                 }`}
               >
                 100%
@@ -253,7 +259,7 @@ export const InteractivePdfPreview: React.FC<InteractivePdfPreviewProps> = ({
             </div>
 
             {/* Slips Range Count */}
-            <span className="text-[11px] text-surface-500 font-medium hidden lg:inline">
+            <span className="text-[11px] text-surface-500 dark:text-slate-400 font-medium hidden lg:inline">
               Slips #{currentSlipsStart}–#{currentSlipsEnd} of {employees.length}
             </span>
 
@@ -268,7 +274,7 @@ export const InteractivePdfPreview: React.FC<InteractivePdfPreviewProps> = ({
               >
                 Prev
               </Button>
-              <span className="text-xs font-bold text-surface-800 px-2 py-1 rounded-lg bg-surface-50 border border-surface-200">
+              <span className="text-xs font-bold text-surface-800 dark:text-slate-200 px-2 py-1 rounded-lg bg-surface-50 dark:bg-slate-800/80 border border-surface-200 dark:border-slate-700">
                 {safePageIndex + 1} / {totalPages}
               </span>
               <Button
@@ -307,7 +313,7 @@ export const InteractivePdfPreview: React.FC<InteractivePdfPreviewProps> = ({
       {/* =========================================================================
           4. DOCUMENT DESK CANVAS (Realistic paper elevation and studio backdrop)
           ========================================================================= */}
-      <div className="w-full overflow-x-auto p-4 sm:p-8 bg-slate-200/80 rounded-3xl border border-surface-300 shadow-inner flex justify-center items-start min-h-[500px]">
+      <div className="w-full overflow-x-auto p-4 sm:p-8 bg-slate-200/80 dark:bg-slate-950/90 rounded-3xl border border-surface-300 dark:border-slate-800 shadow-inner flex justify-center items-start min-h-[500px] transition-colors">
         {currentPage ? (
           <div
             className="transition-all duration-150 ease-out"
@@ -329,7 +335,8 @@ export const InteractivePdfPreview: React.FC<InteractivePdfPreviewProps> = ({
                 left: 0,
               }}
             >
-              <div className="shadow-[0_20px_50px_rgba(0,0,0,0.18)] ring-1 ring-slate-900/15 rounded-xs bg-white">
+              {/* Paper Elevation Wrapper - STRICTLY ISOLATED LIGHT MODE FOR PHYSICAL PAPER */}
+              <div className="shadow-[0_20px_50px_rgba(0,0,0,0.18)] dark:shadow-[0_25px_60px_rgba(0,0,0,0.7)] ring-1 ring-slate-900/15 dark:ring-white/10 rounded-xs bg-white pdf-light-isolate">
                 <A4PageSheet
                   slips={currentPage.slips}
                   pageNumber={currentPage.pageNumber}
@@ -343,10 +350,10 @@ export const InteractivePdfPreview: React.FC<InteractivePdfPreviewProps> = ({
             </div>
           </div>
         ) : (
-          <div className="p-16 text-center text-surface-500 space-y-2">
-            <FileText className="w-10 h-10 mx-auto text-surface-400" />
+          <div className="p-16 text-center text-surface-500 dark:text-slate-400 space-y-2">
+            <FileText className="w-10 h-10 mx-auto text-surface-400 dark:text-slate-500" />
             <p className="text-sm font-semibold">No employees selected for generation</p>
-            <p className="text-xs text-surface-400">
+            <p className="text-xs text-surface-400 dark:text-slate-500">
               Return to the data review step to queue employees for PDF generation.
             </p>
           </div>
@@ -354,10 +361,11 @@ export const InteractivePdfPreview: React.FC<InteractivePdfPreviewProps> = ({
       </div>
 
       {/* =========================================================================
-          5. HIDDEN DOCUMENT CONTAINER FOR PDF DOWNLOAD
+          5. HIDDEN DOCUMENT CONTAINER FOR PDF DOWNLOAD (Strict Light Mode)
           ========================================================================= */}
       <div
         ref={allPagesContainerRef}
+        className="pdf-light-isolate light"
         style={{
           position: 'fixed',
           left: 0,
@@ -367,6 +375,8 @@ export const InteractivePdfPreview: React.FC<InteractivePdfPreviewProps> = ({
           pointerEvents: 'none',
           width: '198mm',
           backgroundColor: '#ffffff',
+          color: '#0f172a',
+          colorScheme: 'light',
         }}
       >
         {pages.map((p) => (

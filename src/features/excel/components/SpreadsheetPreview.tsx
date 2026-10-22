@@ -52,8 +52,8 @@ export const SpreadsheetPreview: React.FC<SpreadsheetPreviewProps> = ({
 }) => {
   if (!currentSheet) {
     return (
-      <div className="bg-white rounded-xl border border-surface-200 p-12 text-center text-surface-500">
-        <Info className="w-8 h-8 text-surface-400 mx-auto mb-3" />
+      <div className="bg-white dark:bg-slate-900 rounded-xl border border-surface-200 dark:border-slate-800 p-12 text-center text-surface-500 dark:text-slate-400 transition-colors">
+        <Info className="w-8 h-8 text-surface-400 dark:text-slate-500 mx-auto mb-3" />
         <p className="text-sm font-medium">No sheet selected</p>
       </div>
     );
@@ -63,30 +63,30 @@ export const SpreadsheetPreview: React.FC<SpreadsheetPreviewProps> = ({
   const endRow = Math.min(page * pageSize, totalFilteredRows);
 
   return (
-    <div className="bg-white rounded-xl border border-surface-200 shadow-sm overflow-hidden flex flex-col">
+    <div className="bg-white dark:bg-slate-900 rounded-xl border border-surface-200 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col transition-colors">
       {/* Workbook Metadata Bar */}
-      <div className="p-4 sm:p-5 border-b border-surface-200 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white">
+      <div className="p-4 sm:p-5 border-b border-surface-200 dark:border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-slate-900 transition-colors">
         <div className="flex items-center space-x-3.5">
-          <div className="w-10 h-10 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700 flex-shrink-0">
+          <div className="w-10 h-10 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 flex items-center justify-center text-emerald-700 dark:text-emerald-400 flex-shrink-0">
             <FileSpreadsheet className="w-5 h-5" />
           </div>
           <div>
             <div className="flex items-center space-x-2">
-              <h2 className="text-sm font-semibold text-surface-900 tracking-tight truncate max-w-xs sm:max-w-md">
+              <h2 className="text-sm font-semibold text-surface-900 dark:text-slate-100 tracking-tight truncate max-w-xs sm:max-w-md">
                 {workbook.meta.fileName}
               </h2>
               <Badge variant="green" size="sm">
                 Ready to map
               </Badge>
             </div>
-            <div className="flex items-center space-x-3 text-xs text-surface-500 mt-0.5">
+            <div className="flex items-center space-x-3 text-xs text-surface-500 dark:text-slate-400 mt-0.5">
               <span>{formatFileSize(workbook.meta.fileSize)}</span>
               <span>•</span>
               <span>{workbook.meta.sheetNames.length} worksheets</span>
               <span>•</span>
               <span>
                 {currentSheet.rowCount} rows × {currentSheet.columnCount} columns in{' '}
-                <strong className="text-surface-700 font-medium">{activeSheetName}</strong>
+                <strong className="text-surface-700 dark:text-slate-300 font-medium">{activeSheetName}</strong>
               </span>
             </div>
           </div>
@@ -97,7 +97,7 @@ export const SpreadsheetPreview: React.FC<SpreadsheetPreviewProps> = ({
             variant="outline"
             size="sm"
             onClick={onReset}
-            leftIcon={<RotateCcw className="w-3.5 h-3.5 text-surface-500" />}
+            leftIcon={<RotateCcw className="w-3.5 h-3.5 text-surface-500 dark:text-slate-400" />}
           >
             Change File
           </Button>
@@ -121,21 +121,21 @@ export const SpreadsheetPreview: React.FC<SpreadsheetPreviewProps> = ({
       />
 
       {/* Spreadsheet Search and Quick Filter Toolbar */}
-      <div className="px-4 py-3 border-b border-surface-200 bg-surface-50/40 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div className="px-4 py-3 border-b border-surface-200 dark:border-slate-800 bg-surface-50/40 dark:bg-slate-800/40 flex flex-col sm:flex-row items-center justify-between gap-3 transition-colors">
         {/* Search */}
         <div className="relative w-full sm:w-72">
-          <Search className="w-4 h-4 text-surface-400 absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-surface-400 dark:text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder={`Filter ${activeSheetName}...`}
-            className="w-full pl-9 pr-3 py-1.5 text-xs bg-white border border-surface-200 rounded-lg text-surface-900 placeholder:text-surface-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
+            className="w-full pl-9 pr-3 py-1.5 text-xs bg-white dark:bg-slate-800/80 border border-surface-200 dark:border-slate-700 rounded-lg text-surface-900 dark:text-slate-100 placeholder:text-surface-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 font-sans"
           />
           {searchQuery && (
             <button
               onClick={() => onSearchChange('')}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-surface-400 hover:text-surface-600"
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-surface-400 dark:text-slate-500 hover:text-surface-600 dark:hover:text-slate-300"
             >
               ×
             </button>
@@ -143,20 +143,20 @@ export const SpreadsheetPreview: React.FC<SpreadsheetPreviewProps> = ({
         </div>
 
         {/* View Options & Rows per page */}
-        <div className="flex items-center justify-between w-full sm:w-auto space-x-3 text-xs text-surface-600">
+        <div className="flex items-center justify-between w-full sm:w-auto space-x-3 text-xs text-surface-600 dark:text-slate-400">
           {searchQuery && (
-            <span className="text-emerald-700 font-medium">
+            <span className="text-emerald-700 dark:text-emerald-400 font-medium">
               {totalFilteredRows} match{totalFilteredRows === 1 ? '' : 'es'} found
             </span>
           )}
 
           <div className="flex items-center space-x-2">
-            <span className="text-surface-500">Rows per page:</span>
+            <span className="text-surface-500 dark:text-slate-400">Rows per page:</span>
             <select
               value={pageSize}
               onChange={(e) => onPageSizeChange(Number(e.target.value))}
               aria-label="Rows per page"
-              className="bg-white border border-surface-200 rounded-md px-2 py-1 text-xs text-surface-800 focus:outline-none focus:border-emerald-500"
+              className="bg-white dark:bg-slate-800 border border-surface-200 dark:border-slate-700 rounded-md px-2 py-1 text-xs text-surface-800 dark:text-slate-200 focus:outline-none focus:border-emerald-500"
             >
               <option value={10}>10</option>
               <option value={25}>25</option>
@@ -167,24 +167,24 @@ export const SpreadsheetPreview: React.FC<SpreadsheetPreviewProps> = ({
       </div>
 
       {/* Scrollable Spreadsheet Grid */}
-      <div className="overflow-x-auto relative min-h-[320px] max-h-[520px] border-b border-surface-200">
+      <div className="overflow-x-auto relative min-h-[320px] max-h-[520px] border-b border-surface-200 dark:border-slate-800">
         {paginatedRows.length === 0 ? (
-          <div className="py-16 text-center text-surface-500">
+          <div className="py-16 text-center text-surface-500 dark:text-slate-400">
             <p className="text-sm font-medium">No matching data found in this sheet.</p>
-            <p className="text-xs text-surface-400 mt-1">Try clearing your search query or selecting another sheet.</p>
+            <p className="text-xs text-surface-400 dark:text-slate-500 mt-1">Try clearing your search query or selecting another sheet.</p>
           </div>
         ) : (
           <table className="w-full text-left text-xs border-collapse">
             <thead>
               {/* Row 1: Excel Column Letters (A, B, C...) */}
-              <tr className="bg-surface-100/90 text-surface-500 font-mono text-[11px] select-none border-b border-surface-200">
-                <th className="w-12 px-2.5 py-1.5 text-center font-normal border-r border-surface-200 bg-surface-100 sticky left-0 z-20">
+              <tr className="bg-surface-100/90 dark:bg-slate-800/90 text-surface-500 dark:text-slate-400 font-mono text-[11px] select-none border-b border-surface-200 dark:border-slate-700">
+                <th className="w-12 px-2.5 py-1.5 text-center font-normal border-r border-surface-200 dark:border-slate-700 bg-surface-100 dark:bg-slate-800 sticky left-0 z-20">
                   #
                 </th>
                 {currentSheet.headers.map((col) => (
                   <th
                     key={col.key}
-                    className="px-3.5 py-1.5 font-medium text-center border-r border-surface-200/80 last:border-r-0 min-w-[140px]"
+                    className="px-3.5 py-1.5 font-medium text-center border-r border-surface-200/80 dark:border-slate-700/80 last:border-r-0 min-w-[140px]"
                   >
                     {col.letter}
                   </th>
@@ -192,14 +192,14 @@ export const SpreadsheetPreview: React.FC<SpreadsheetPreviewProps> = ({
               </tr>
 
               {/* Row 2: Detected Column Header Labels */}
-              <tr className="bg-surface-50 text-surface-800 font-semibold border-b border-surface-200">
-                <th className="w-12 px-2.5 py-2 text-center text-surface-400 border-r border-surface-200 bg-surface-50 sticky left-0 z-20">
-                  <SlidersHorizontal className="w-3 h-3 mx-auto text-surface-400" />
+              <tr className="bg-surface-50 dark:bg-slate-800 text-surface-800 dark:text-slate-200 font-semibold border-b border-surface-200 dark:border-slate-700">
+                <th className="w-12 px-2.5 py-2 text-center text-surface-400 dark:text-slate-500 border-r border-surface-200 dark:border-slate-700 bg-surface-50 dark:bg-slate-800 sticky left-0 z-20">
+                  <SlidersHorizontal className="w-3 h-3 mx-auto text-surface-400 dark:text-slate-500" />
                 </th>
                 {currentSheet.headers.map((col) => (
                   <th
                     key={`label_${col.key}`}
-                    className="px-3.5 py-2.5 border-r border-surface-200/80 last:border-r-0 whitespace-nowrap min-w-[140px]"
+                    className="px-3.5 py-2.5 border-r border-surface-200/80 dark:border-slate-700/80 last:border-r-0 whitespace-nowrap min-w-[140px]"
                   >
                     <div className="flex items-center justify-between space-x-2">
                       <span className="truncate">{col.header}</span>
@@ -209,14 +209,14 @@ export const SpreadsheetPreview: React.FC<SpreadsheetPreviewProps> = ({
               </tr>
             </thead>
 
-            <tbody className="divide-y divide-surface-100 bg-white">
+            <tbody className="divide-y divide-surface-100 dark:divide-slate-800 bg-white dark:bg-slate-900">
               {paginatedRows.map((row) => (
                 <tr
                   key={`row_${row.rowIndex}`}
-                  className="hover:bg-emerald-50/30 transition-colors group"
+                  className="hover:bg-emerald-50/30 dark:hover:bg-emerald-950/20 transition-colors group"
                 >
                   {/* Row Number */}
-                  <td className="w-12 px-2.5 py-2 text-center font-mono text-[11px] text-surface-400 bg-surface-50/50 group-hover:bg-emerald-50/50 border-r border-surface-200 sticky left-0 z-10 select-none">
+                  <td className="w-12 px-2.5 py-2 text-center font-mono text-[11px] text-surface-400 dark:text-slate-500 bg-surface-50/50 dark:bg-slate-850/50 group-hover:bg-emerald-50/50 dark:group-hover:bg-emerald-950/40 border-r border-surface-200 dark:border-slate-700 sticky left-0 z-10 select-none">
                     {row.rowIndex}
                   </td>
 
@@ -226,17 +226,17 @@ export const SpreadsheetPreview: React.FC<SpreadsheetPreviewProps> = ({
                     return (
                       <td
                         key={`cell_${row.rowIndex}_${cIdx}`}
-                        className={`px-3.5 py-2 text-surface-800 border-r border-surface-100 last:border-r-0 whitespace-nowrap ${
+                        className={`px-3.5 py-2 text-surface-800 dark:text-slate-200 border-r border-surface-100 dark:border-slate-800 last:border-r-0 whitespace-nowrap ${
                           isCurrencyOrNumber ? 'text-right font-mono text-[11.5px]' : ''
                         }`}
                       >
                         <span
                           className={`${
                             cell.type === 'empty'
-                              ? 'text-surface-300'
+                              ? 'text-surface-300 dark:text-slate-600'
                               : cell.formatted.startsWith('(') || cell.formatted.startsWith('-')
-                              ? 'text-red-600 font-mono'
-                              : 'text-surface-800'
+                              ? 'text-red-600 dark:text-red-400 font-mono'
+                              : 'text-surface-800 dark:text-slate-200'
                           }`}
                         >
                           {cell.formatted}
@@ -252,12 +252,12 @@ export const SpreadsheetPreview: React.FC<SpreadsheetPreviewProps> = ({
       </div>
 
       {/* Table Pagination & Footer Controls */}
-      <div className="p-3.5 sm:p-4 bg-white flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-surface-600">
+      <div className="p-3.5 sm:p-4 bg-white dark:bg-slate-900 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-surface-600 dark:text-slate-400 transition-colors">
         <div className="flex items-center space-x-2">
           <span>
-            Showing <strong className="font-semibold text-surface-900">{startRow}</strong> to{' '}
-            <strong className="font-semibold text-surface-900">{endRow}</strong> of{' '}
-            <strong className="font-semibold text-surface-900">{totalFilteredRows}</strong> rows
+            Showing <strong className="font-semibold text-surface-900 dark:text-slate-100">{startRow}</strong> to{' '}
+            <strong className="font-semibold text-surface-900 dark:text-slate-100">{endRow}</strong> of{' '}
+            <strong className="font-semibold text-surface-900 dark:text-slate-100">{totalFilteredRows}</strong> rows
           </span>
         </div>
 
@@ -273,9 +273,9 @@ export const SpreadsheetPreview: React.FC<SpreadsheetPreviewProps> = ({
             Previous
           </Button>
 
-          <span className="px-2 text-xs text-surface-600">
-            Page <strong className="text-surface-900">{page}</strong> of{' '}
-            <strong className="text-surface-900">{totalPages}</strong>
+          <span className="px-2 text-xs text-surface-600 dark:text-slate-400">
+            Page <strong className="text-surface-900 dark:text-slate-100">{page}</strong> of{' '}
+            <strong className="text-surface-900 dark:text-slate-100">{totalPages}</strong>
           </span>
 
           <Button

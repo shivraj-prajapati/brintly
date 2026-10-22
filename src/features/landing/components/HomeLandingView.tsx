@@ -23,7 +23,7 @@ export const HomeLandingView: React.FC<HomeLandingViewProps> = ({
   return (
     <div className="space-y-12 sm:space-y-16 py-1 relative overflow-hidden">
       {/* Soft Ambient Light Glow in Hero Background */}
-      <div className="absolute top-4 left-1/2 -translate-x-1/2 w-full max-w-5xl h-[380px] bg-gradient-to-b from-emerald-100/50 via-teal-50/20 to-transparent blur-3xl -z-10 pointer-events-none rounded-full" />
+      <div className="absolute top-4 left-1/2 -translate-x-1/2 w-full max-w-5xl h-[380px] bg-gradient-to-b from-emerald-100/50 via-teal-50/20 to-transparent dark:from-emerald-950/30 dark:via-teal-950/15 blur-3xl -z-10 pointer-events-none rounded-full" />
 
       {/* =========================================================================
           1. HERO SECTION: Payway-Inspired Editorial Aesthetic with Floating 3D Elements
@@ -98,17 +98,17 @@ export const HomeLandingView: React.FC<HomeLandingViewProps> = ({
           </div>
 
           {/* MAIN EDITORIAL HEADLINE (High-contrast, bold display typography - Compact & crisp for 125% zoom) */}
-          <h1 className="font-display font-black text-3xl sm:text-5xl lg:text-6xl text-surface-900 tracking-tight leading-[1.08] mb-2 sm:mb-2.5">
+          <h1 className="font-display font-black text-3xl sm:text-5xl lg:text-6xl text-surface-900 dark:text-slate-100 tracking-tight leading-[1.08] mb-2 sm:mb-2.5 transition-colors">
             Salary Slips <br />
-            <span className="text-surface-900">that feel </span>
-            <span className="bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 bg-clip-text text-transparent italic font-serif sm:font-display sm:not-italic">
+            <span className="text-surface-900 dark:text-slate-100">that feel </span>
+            <span className="bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 dark:from-emerald-400 dark:via-teal-400 dark:to-emerald-500 bg-clip-text text-transparent italic font-serif sm:font-display sm:not-italic">
               effortless.
             </span>
           </h1>
         </div>
 
         {/* Subtitle */}
-        <p className="text-xs sm:text-sm text-surface-600 max-w-lg mx-auto leading-relaxed mb-4 sm:mb-5 font-medium">
+        <p className="text-xs sm:text-sm text-surface-600 dark:text-slate-400 max-w-lg mx-auto leading-relaxed mb-4 sm:mb-5 font-medium transition-colors">
           Transform messy spreadsheets into clean, 4-in-1 print-ready salary vouchers in seconds. Built for precision, confidentiality, and zero printer waste.
         </p>
 
@@ -122,25 +122,25 @@ export const HomeLandingView: React.FC<HomeLandingViewProps> = ({
 
           {/* 1-Click Demo Sheet (Generic demo.xlsx - Safe & Private) */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-2 pt-0.5">
-            <span className="text-xs text-surface-500 font-medium">
+            <span className="text-xs text-surface-500 dark:text-slate-400 font-medium">
               Want to test immediately?
             </span>
             <button
               type="button"
               onClick={onLoadDemo}
               disabled={isLoading}
-              className="inline-flex items-center px-4 py-2 rounded-full bg-white hover:bg-emerald-50 text-emerald-800 border border-emerald-300 shadow-2xs hover:shadow-xs font-bold text-xs transition-all cursor-pointer group"
+              className="inline-flex items-center px-4 py-2 rounded-full bg-white dark:bg-slate-800 hover:bg-emerald-50 dark:hover:bg-slate-700 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700 shadow-2xs hover:shadow-xs font-bold text-xs transition-all cursor-pointer group"
             >
-              <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-600 group-hover:scale-110 transition-transform" />
+              <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform" />
               <span>Try Demo Sheet (demo.xlsx)</span>
-              <span className="text-[10px] bg-emerald-100 text-emerald-800 px-1.5 py-0.2 rounded-full font-extrabold">
+              <span className="text-[10px] bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 px-1.5 py-0.2 rounded-full font-extrabold border border-emerald-200 dark:border-emerald-800">
                 1-Click
               </span>
             </button>
           </div>
 
           {/* Trust Badges */}
-          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 pt-1 text-[11px] text-surface-500 font-medium">
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 pt-1 text-[11px] text-surface-500 dark:text-slate-400 font-medium">
             <span>🔒 100% Client-Side Privacy</span>
             <span>•</span>
             <span>✂️ Pre-calibrated Cutting Lines</span>
@@ -155,14 +155,14 @@ export const HomeLandingView: React.FC<HomeLandingViewProps> = ({
           ========================================================================= */}
       <section className="max-w-screen-2xl mx-auto px-4 sm:px-6">
         <div className="text-center max-w-xl mx-auto mb-6 space-y-1.5">
-          <div className="inline-flex items-center space-x-1.5 text-xs font-bold text-emerald-700 uppercase tracking-wider">
+          <div className="inline-flex items-center space-x-1.5 text-xs font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider">
             <Palette className="w-3.5 h-3.5" />
             <span>5 Minimal PDF Slip Templates</span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-surface-900 tracking-tight">
+          <h2 className="text-xl sm:text-2xl font-extrabold text-surface-900 dark:text-slate-100 tracking-tight">
             Designed for Every Organization
           </h2>
-          <p className="text-xs text-surface-500">
+          <p className="text-xs text-surface-500 dark:text-slate-400">
             Pick your preferred style in the navigation bar; it stays saved in your browser.
           </p>
         </div>
@@ -171,26 +171,26 @@ export const HomeLandingView: React.FC<HomeLandingViewProps> = ({
           {PDF_TEMPLATES.map((tmpl) => (
             <div
               key={tmpl.id}
-              className="bg-white rounded-2xl border border-surface-200 p-4 shadow-2xs hover:shadow-card hover:border-emerald-300 transition-all flex flex-col justify-between group"
+              className="bg-white dark:bg-slate-900 rounded-2xl border border-surface-200 dark:border-slate-800 p-4 shadow-2xs hover:shadow-card hover:border-emerald-300 dark:hover:border-emerald-700/60 transition-all flex flex-col justify-between group"
             >
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-surface-100 text-surface-700 font-mono">
+                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-surface-100 dark:bg-slate-800 text-surface-700 dark:text-slate-300 font-mono border border-surface-200 dark:border-slate-700">
                     {tmpl.badge}
                   </span>
                   <div className="w-2 h-2 rounded-full bg-emerald-500" />
                 </div>
-                <h3 className="text-xs sm:text-sm font-bold text-surface-900 group-hover:text-emerald-700 transition-colors">
+                <h3 className="text-xs sm:text-sm font-bold text-surface-900 dark:text-slate-100 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">
                   {tmpl.name}
                 </h3>
-                <p className="text-[11px] text-surface-500 leading-snug">
+                <p className="text-[11px] text-surface-500 dark:text-slate-400 leading-snug">
                   {tmpl.description}
                 </p>
               </div>
 
-              <div className="mt-3 pt-2.5 border-t border-surface-100 flex items-center justify-between text-[11px] font-semibold text-emerald-700">
+              <div className="mt-3 pt-2.5 border-t border-surface-100 dark:border-slate-800 flex items-center justify-between text-[11px] font-semibold text-emerald-700 dark:text-emerald-400">
                 <span>4 Slips / Page</span>
-                <Scissors className="w-3.5 h-3.5 text-surface-400" />
+                <Scissors className="w-3.5 h-3.5 text-surface-400 dark:text-slate-500" />
               </div>
             </div>
           ))}
@@ -201,7 +201,7 @@ export const HomeLandingView: React.FC<HomeLandingViewProps> = ({
           3. HOW IT WORKS (3 Simple Steps)
           ========================================================================= */}
       <section className="max-w-screen-2xl mx-auto px-4 sm:px-6">
-        <div className="bg-gradient-to-br from-emerald-900 to-slate-900 rounded-3xl p-6 sm:p-10 text-white shadow-card">
+        <div className="bg-gradient-to-br from-emerald-900 to-slate-900 dark:from-emerald-950 dark:to-slate-950 rounded-3xl p-6 sm:p-10 text-white shadow-card border border-emerald-900/40 dark:border-slate-800">
           <div className="text-center max-w-xl mx-auto mb-8 space-y-1.5">
             <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">
               Fast 3-Step Workflow
@@ -212,7 +212,7 @@ export const HomeLandingView: React.FC<HomeLandingViewProps> = ({
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-5 border border-white/10 space-y-1.5">
+            <div className="bg-white/10 dark:bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/10 space-y-1.5">
               <div className="text-emerald-400 font-mono text-xs font-bold">01</div>
               <h4 className="text-sm font-bold text-white">Upload Excel File</h4>
               <p className="text-xs text-slate-300 leading-relaxed">
@@ -220,7 +220,7 @@ export const HomeLandingView: React.FC<HomeLandingViewProps> = ({
               </p>
             </div>
 
-            <div className="bg-white/10 backdrop-blur-sm rounded-2Fxl p-5 border border-white/10 space-y-1.5">
+            <div className="bg-white/10 dark:bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/10 space-y-1.5">
               <div className="text-emerald-400 font-mono text-xs font-bold">02</div>
               <h4 className="text-sm font-bold text-white">Review & Configure</h4>
               <p className="text-xs text-slate-300 leading-relaxed">
@@ -228,7 +228,7 @@ export const HomeLandingView: React.FC<HomeLandingViewProps> = ({
               </p>
             </div>
 
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-5 border border-white/10 space-y-1.5">
+            <div className="bg-white/10 dark:bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/10 space-y-1.5">
               <div className="text-emerald-400 font-mono text-xs font-bold">03</div>
               <h4 className="text-sm font-bold text-white">Download or Print</h4>
               <p className="text-xs text-slate-300 leading-relaxed">
@@ -244,38 +244,38 @@ export const HomeLandingView: React.FC<HomeLandingViewProps> = ({
           ========================================================================= */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-6 space-y-1">
-          <h2 className="text-xl font-bold text-surface-900">
+          <h2 className="text-xl font-bold text-surface-900 dark:text-slate-100">
             Frequently Asked Questions
           </h2>
-          <p className="text-xs text-surface-500">
+          <p className="text-xs text-surface-500 dark:text-slate-400">
             Common questions about sheet format, calculations, and printing.
           </p>
         </div>
 
         <div className="space-y-3 text-xs sm:text-sm">
-          <div className="bg-white rounded-2xl border border-surface-200 p-4 space-y-1 shadow-2xs">
-            <h4 className="font-bold text-surface-900">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-surface-200 dark:border-slate-800 p-4 space-y-1 shadow-2xs transition-colors">
+            <h4 className="font-bold text-surface-900 dark:text-slate-100">
               How does the 4-in-1 cutting guide work?
             </h4>
-            <p className="text-surface-600 leading-relaxed text-xs">
+            <p className="text-surface-600 dark:text-slate-400 leading-relaxed text-xs">
               Every A4 page is divided into a 2×2 grid with centered dashed scissor guidelines. After printing, slice along the horizontal and vertical center lines to get 4 neat, identical salary slips.
             </p>
           </div>
 
-          <div className="bg-white rounded-2xl border border-surface-200 p-4 space-y-1 shadow-2xs">
-            <h4 className="font-bold text-surface-900">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-surface-200 dark:border-slate-800 p-4 space-y-1 shadow-2xs transition-colors">
+            <h4 className="font-bold text-surface-900 dark:text-slate-100">
               Why is the Total Amount always an integer without decimals?
             </h4>
-            <p className="text-surface-600 leading-relaxed text-xs">
+            <p className="text-surface-600 dark:text-slate-400 leading-relaxed text-xs">
               Payroll slips for cash or standard disbursements require clean whole rupee amounts. Brintly applies rigorous rounding logic ensuring net amounts never display paisa fractions or messy decimals.
             </p>
           </div>
 
-          <div className="bg-white rounded-2xl border border-surface-200 p-4 space-y-1 shadow-2xs">
-            <h4 className="font-bold text-surface-900">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-surface-200 dark:border-slate-800 p-4 space-y-1 shadow-2xs transition-colors">
+            <h4 className="font-bold text-surface-900 dark:text-slate-100">
               Does this work on mobile phones?
             </h4>
-            <p className="text-surface-600 leading-relaxed text-xs">
+            <p className="text-surface-600 dark:text-slate-400 leading-relaxed text-xs">
               Yes. The interface is responsive and adapts cleanly to smartphone screens, allowing mobile data inspection, template selection, and PDF generation.
             </p>
           </div>

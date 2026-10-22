@@ -9,6 +9,7 @@ export const StorageKeys = {
   CALC_MODE: 'brintly_calculation_mode',
   ROUNDING: 'brintly_rounding_rule',
   EXCLUSION: 'brintly_exclusion_enabled',
+  THEME: 'brintly_theme_mode',
 } as const;
 
 export function getStoredConfig<T>(key: string, defaultValue: T): T {

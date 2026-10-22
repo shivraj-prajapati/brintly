@@ -30,15 +30,15 @@ export const Button: React.FC<ButtonProps> = ({
 
   const variantStyles = {
     primary:
-      'bg-brand-600 text-white hover:bg-brand-700 focus:ring-brand-500 shadow-sm',
+      'bg-brand-600 text-white hover:bg-brand-700 dark:bg-emerald-600 dark:hover:bg-emerald-500 focus:ring-brand-500 shadow-sm',
     secondary:
-      'bg-surface-100 text-surface-900 hover:bg-surface-200 focus:ring-surface-400 border border-surface-200',
+      'bg-surface-100 dark:bg-slate-800 text-surface-900 dark:text-slate-100 hover:bg-surface-200 dark:hover:bg-slate-700 focus:ring-surface-400 border border-surface-200 dark:border-slate-700',
     outline:
-      'bg-white text-surface-700 hover:bg-surface-50 border border-surface-300 focus:ring-brand-500',
+      'bg-white dark:bg-slate-900 text-surface-700 dark:text-slate-200 hover:bg-surface-50 dark:hover:bg-slate-800 border border-surface-300 dark:border-slate-700 focus:ring-brand-500',
     ghost:
-      'bg-transparent text-surface-600 hover:bg-surface-100 hover:text-surface-900 focus:ring-surface-400',
+      'bg-transparent text-surface-600 dark:text-slate-400 hover:bg-surface-100 dark:hover:bg-slate-800 hover:text-surface-900 dark:hover:text-slate-100 focus:ring-surface-400',
     danger:
-      'bg-red-50 text-red-700 hover:bg-red-100 border border-red-200 focus:ring-red-400',
+      'bg-red-50 dark:bg-red-950/40 text-red-700 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/40 border border-red-200 dark:border-red-900/60 focus:ring-red-400',
   };
 
   return (

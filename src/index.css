@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 :root {
+  color-scheme: light;
   /* ==========================================================================
      BRINTLY THEME SYSTEM: Single Source of Truth for Colors, Typography, Slips
      Adjust variables here to change the look & feel across UI and PDF Slips.
@@ -68,15 +69,64 @@
   --slip-cutting-dash: 4px 4px;
 }
 
+.dark {
+  color-scheme: dark;
+  /* ==========================================================================
+     BRINTLY DARK THEME SYSTEM: Sleek, Minimal Enterprise Dark Palette
+     ========================================================================== */
+  --color-surface-bg: #090d16;
+  --color-surface-card: #0f172a;
+  --color-surface-subtle: #172033;
+  --color-surface-border: #1e293b;
+  --color-surface-border-strong: #334155;
+
+  /* Text & Contrast */
+  --color-text-main: #f8fafc;
+  --color-text-muted: #94a3b8;
+  --color-text-subtle: #64748b;
+  --color-text-light: #475569;
+
+  /* Brand Accents Tuned for Dark Backgrounds */
+  --color-brand-primary: #10b981;
+  --color-brand-primary-hover: #059669;
+  --color-brand-soft: rgba(16, 185, 129, 0.12);
+  --color-brand-ring: rgba(16, 185, 129, 0.25);
+}
+
 @layer base {
   * {
     border-color: var(--color-surface-border);
   }
   body {
-    background-color: #ffffff;
+    background-color: var(--color-surface-bg);
     color: var(--color-text-main);
     font-family: var(--font-sans);
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
+}
+
+/* ==========================================================================
+   PDF & SLIP LIGHT MODE ISOLATION:
+   CRITICAL REQUIREMENT: Salary Slips & PDF previews must NEVER be affected
+   by Dark Mode. They represent physical A4 paper slips for print/download.
+   ========================================================================== */
+.pdf-light-isolate,
+.pdf-light-isolate * {
+  color-scheme: light !important;
+}
+
+.pdf-light-isolate {
+  --color-surface-bg: #ffffff !important;
+  --color-surface-card: #ffffff !important;
+  --color-surface-subtle: #f8fafc !important;
+  --color-surface-border: #e2e8f0 !important;
+  --color-surface-border-strong: #cbd5e1 !important;
+  --color-text-main: #0f172a !important;
+  --color-text-muted: #475569 !important;
+  --color-text-subtle: #64748b !important;
+  --color-text-light: #94a3b8 !important;
+  background-color: #ffffff !important;
+  color: #0f172a !important;
 }
 
 /* Custom Minimal Scrollbar */
@@ -89,13 +139,25 @@
   background: #f8fafc;
 }
 
+.dark ::-webkit-scrollbar-track {
+  background: #090d16;
+}
+
 ::-webkit-scrollbar-thumb {
   background: #cbd5e1;
   border-radius: 3px;
 }
 
+.dark ::-webkit-scrollbar-thumb {
+  background: #1e293b;
+}
+
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #334155;
 }
 
 /* Subtle 3D Floating Animations */

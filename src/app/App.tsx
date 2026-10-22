@@ -272,7 +272,7 @@ export default function App() {
   const estimatedPages = calculateA4PageCount(includedInPdfEmployees.length);
 
   return (
-    <div className="min-h-screen bg-surface-bg text-surface-900 flex flex-col font-sans selection:bg-emerald-100 selection:text-emerald-900">
+    <div className="min-h-screen bg-surface-bg dark:bg-[#090d16] text-surface-900 dark:text-slate-100 flex flex-col font-sans selection:bg-emerald-100 selection:text-emerald-900 dark:selection:bg-emerald-950 dark:selection:text-emerald-200 transition-colors">
       {/* 1. Header (Navbar with clickable Brintly Logo, Upload Action & Template Gallery Trigger) */}
       <Header
         currentStep={currentStep}
@@ -345,16 +345,16 @@ export default function App() {
             />
 
             {/* Bottom Sticky Action Bar: Separate Download & Print buttons */}
-            <div className="bg-white rounded-2xl border border-surface-200 p-4 sm:p-5 shadow-card flex flex-col sm:flex-row sm:items-center justify-between gap-4 sticky bottom-4 z-20">
+            <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-2xl border border-surface-200 dark:border-slate-800 p-4 sm:p-5 shadow-card dark:shadow-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 sticky bottom-4 z-20 transition-colors">
               <div>
-                <div className="flex items-center space-x-2 text-sm font-bold text-surface-900">
+                <div className="flex items-center space-x-2 text-sm font-bold text-surface-900 dark:text-slate-100">
                   <span>{includedInPdfEmployees.length} of {calculatedEmployees.length} queued for PDF</span>
-                  <span className="text-surface-300">•</span>
-                  <span className="text-emerald-700">
+                  <span className="text-surface-300 dark:text-slate-700">•</span>
+                  <span className="text-emerald-700 dark:text-emerald-400">
                     {estimatedPages} A4 pages (4 slips/page)
                   </span>
                 </div>
-                <p className="text-xs text-surface-500 mt-0.5">
+                <p className="text-xs text-surface-500 dark:text-slate-400 mt-0.5">
                   Sheet: &ldquo;{activeSheetName}&rdquo; • Mode: {calculationMode} • Template: {selectedTemplate} • Labels: {pdfLanguage === 'en' ? 'English' : 'Hindi'}
                 </p>
               </div>
@@ -394,7 +394,7 @@ export default function App() {
                   size="md"
                   onClick={() => setCurrentStep('export')}
                   disabled={includedInPdfEmployees.length === 0}
-                  leftIcon={<Eye className="w-4 h-4 text-emerald-600" />}
+                  leftIcon={<Eye className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />}
                 >
                   Preview Layout
                 </Button>
@@ -412,9 +412,10 @@ export default function App() {
         )}
       </main>
 
-      {/* 3. Offscreen Printable Container for Standalone PDF Generation */}
+      {/* 3. Offscreen Printable Container for Standalone PDF Generation (Strict Light Mode) */}
       <div
         ref={offscreenPrintRef}
+        className="pdf-light-isolate light"
         style={{
           position: 'fixed',
           left: 0,
@@ -424,6 +425,8 @@ export default function App() {
           pointerEvents: 'none',
           width: '198mm',
           backgroundColor: '#ffffff',
+          color: '#0f172a',
+          colorScheme: 'light',
         }}
       >
         {printablePages.map((p) => (
@@ -440,31 +443,35 @@ export default function App() {
         ))}
       </div>
 
-      {/* 4. Hidden Printable Document (Triggered by window.print()) */}
+      {/* 4. Hidden Printable Document (Triggered by window.print()) - Strictly Isolated Light */}
       {workbook && (
-        <PrintableDocument
-          employees={includedInPdfEmployees}
-          companyTitle={currentSheet?.companyTitle || 'GLOBAL ENTERPRISES'}
-          sheetName={activeSheetName}
-          language={pdfLanguage}
-          template={selectedTemplate}
-        />
+        <div className="pdf-light-isolate light">
+          <PrintableDocument
+            employees={includedInPdfEmployees}
+            companyTitle={currentSheet?.companyTitle || 'GLOBAL ENTERPRISES'}
+            sheetName={activeSheetName}
+            language={pdfLanguage}
+            template={selectedTemplate}
+          />
+        </div>
       )}
 
       {/* 5. Minimal Professional Footer */}
-      <footer className="mt-auto border-t border-surface-200 bg-white py-4 sm:py-5">
-        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-surface-500">
+      <footer className="mt-auto border-t border-surface-200 dark:border-slate-800/80 bg-white dark:bg-[#090d16] py-4 sm:py-5 transition-colors">
+        <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-surface-500 dark:text-slate-400">
           <div className="flex items-center space-x-2.5">
             <img
               src="/logo/logo.png"
               alt="Brintly"
               className="w-5 h-5 rounded-md object-cover shadow-2xs"
             />
-            <span className="font-logo font-black text-black text-sm tracking-tight">Brintly</span>
+            <span className="font-logo font-black text-black dark:text-white text-sm tracking-tight transition-colors">
+              Brintly
+            </span>
             <span>•</span>
             <span>Excel to PDF Salary Slips</span>
           </div>
-          <div className="flex items-center space-x-4 text-surface-500">
+          <div className="flex items-center space-x-4 text-surface-500 dark:text-slate-400">
             <span>A4 Portrait (2×2 Grid)</span>
             <span>•</span>
             <span>Devanagari Hindi & English</span>

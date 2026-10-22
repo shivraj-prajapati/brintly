@@ -53,12 +53,12 @@ export const CompactToolbar: React.FC<CompactToolbarProps> = ({
   const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
 
   return (
-    <div className="bg-white rounded-2xl border border-surface-200 shadow-subtle p-3.5 sm:p-4 space-y-3">
+    <div className="bg-white dark:bg-slate-900 rounded-2xl border border-surface-200 dark:border-slate-800 shadow-subtle p-3.5 sm:p-4 space-y-3 transition-colors">
       {/* 1. Worksheet Tabs Bar (Prominently displayed right at the top) */}
-      <div className="flex items-center justify-between gap-3 pb-3 border-b border-surface-200 overflow-x-auto">
+      <div className="flex items-center justify-between gap-3 pb-3 border-b border-surface-200 dark:border-slate-800 overflow-x-auto">
         <div className="flex items-center space-x-1.5 overflow-x-auto py-0.5">
-          <span className="text-xs font-bold text-surface-500 uppercase tracking-wider mr-2 flex items-center space-x-1 flex-shrink-0">
-            <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-600" />
+          <span className="text-xs font-bold text-surface-500 dark:text-slate-400 uppercase tracking-wider mr-2 flex items-center space-x-1 flex-shrink-0">
+            <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
             <span>Sheets:</span>
           </span>
 
@@ -75,7 +75,7 @@ export const CompactToolbar: React.FC<CompactToolbarProps> = ({
                 className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap flex-shrink-0 border ${
                   isSelected
                     ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
-                    : 'bg-surface-50 text-surface-600 border-surface-200 hover:bg-surface-100 hover:text-surface-900'
+                    : 'bg-surface-50 dark:bg-slate-800/80 text-surface-600 dark:text-slate-300 border-surface-200 dark:border-slate-700 hover:bg-surface-100 dark:hover:bg-slate-700 hover:text-surface-900 dark:hover:text-white'
                 }`}
               >
                 <span>{name}</span>
@@ -83,7 +83,7 @@ export const CompactToolbar: React.FC<CompactToolbarProps> = ({
                   className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
                     isSelected
                       ? 'bg-emerald-800 text-white'
-                      : 'bg-surface-200/80 text-surface-600'
+                      : 'bg-surface-200/80 dark:bg-slate-700 text-surface-600 dark:text-slate-300'
                   }`}
                 >
                   {count}
@@ -99,13 +99,13 @@ export const CompactToolbar: React.FC<CompactToolbarProps> = ({
         <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           {/* Calculation Mode Pill */}
           <div className="relative inline-flex items-center">
-            <div className="flex items-center bg-surface-50 border border-surface-200 rounded-lg p-0.5">
+            <div className="flex items-center bg-surface-50 dark:bg-slate-800/80 border border-surface-200 dark:border-slate-700 rounded-lg p-0.5">
               <span
-                className="px-2 text-surface-500 flex items-center space-x-1 cursor-help"
+                className="px-2 text-surface-500 dark:text-slate-400 flex items-center space-x-1 cursor-help"
                 onMouseEnter={() => setActiveTooltip('calcMode')}
                 onMouseLeave={() => setActiveTooltip(null)}
               >
-                <Calculator className="w-3.5 h-3.5 text-surface-500" />
+                <Calculator className="w-3.5 h-3.5 text-surface-500 dark:text-slate-400" />
                 <span className="font-medium text-[11px]">Mode:</span>
               </span>
               <button
@@ -113,8 +113,8 @@ export const CompactToolbar: React.FC<CompactToolbarProps> = ({
                 onClick={() => onCalculationModeChange('formula')}
                 className={`px-2 py-1 rounded-md text-[11px] font-medium transition-all ${
                   calculationMode === 'formula'
-                    ? 'bg-white text-surface-900 shadow-xs border border-surface-200 font-bold'
-                    : 'text-surface-500 hover:text-surface-900'
+                    ? 'bg-white dark:bg-slate-900 text-surface-900 dark:text-slate-100 shadow-xs border border-surface-200 dark:border-slate-700 font-bold'
+                    : 'text-surface-500 dark:text-slate-400 hover:text-surface-900 dark:hover:text-slate-200'
                 }`}
               >
                 Rate×Days
@@ -124,8 +124,8 @@ export const CompactToolbar: React.FC<CompactToolbarProps> = ({
                 onClick={() => onCalculationModeChange('excel_amount')}
                 className={`px-2 py-1 rounded-md text-[11px] font-medium transition-all ${
                   calculationMode === 'excel_amount'
-                    ? 'bg-white text-surface-900 shadow-xs border border-surface-200 font-bold'
-                    : 'text-surface-500 hover:text-surface-900'
+                    ? 'bg-white dark:bg-slate-900 text-surface-900 dark:text-slate-100 shadow-xs border border-surface-200 dark:border-slate-700 font-bold'
+                    : 'text-surface-500 dark:text-slate-400 hover:text-surface-900 dark:hover:text-slate-200'
                 }`}
               >
                 Excel Amount
@@ -146,8 +146,8 @@ export const CompactToolbar: React.FC<CompactToolbarProps> = ({
             <div
               className={`flex items-center space-x-2 px-2.5 py-1 rounded-lg border text-[11px] transition-all ${
                 isExclusionEnabled && lastSection
-                  ? 'bg-emerald-50/80 border-emerald-300 text-emerald-900'
-                  : 'bg-surface-50 border-surface-200 text-surface-600'
+                  ? 'bg-emerald-50/80 dark:bg-emerald-950/50 border-emerald-300 dark:border-emerald-800 text-emerald-900 dark:text-emerald-300'
+                  : 'bg-surface-50 dark:bg-slate-800/80 border-surface-200 dark:border-slate-700 text-surface-600 dark:text-slate-300'
               }`}
             >
               <label className="flex items-center space-x-1.5 cursor-pointer">
@@ -171,7 +171,7 @@ export const CompactToolbar: React.FC<CompactToolbarProps> = ({
                 <button
                   type="button"
                   onClick={onOpenInspectModal}
-                  className="text-emerald-700 hover:text-emerald-900 font-bold ml-1 flex items-center space-x-0.5 underline underline-offset-2"
+                  className="text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-200 font-bold ml-1 flex items-center space-x-0.5 underline underline-offset-2"
                   title="View excluded employees"
                 >
                   <Eye className="w-3 h-3" />
@@ -180,7 +180,7 @@ export const CompactToolbar: React.FC<CompactToolbarProps> = ({
               )}
 
               <span
-                className="cursor-help text-surface-400 hover:text-surface-600"
+                className="cursor-help text-surface-400 dark:text-slate-500 hover:text-surface-600 dark:hover:text-slate-300"
                 onMouseEnter={() => setActiveTooltip('exclusion')}
                 onMouseLeave={() => setActiveTooltip(null)}
               >
@@ -198,13 +198,13 @@ export const CompactToolbar: React.FC<CompactToolbarProps> = ({
 
           {/* Rounding Rule Pill */}
           <div className="relative inline-flex items-center">
-            <div className="flex items-center bg-surface-50 border border-surface-200 rounded-lg p-0.5">
+            <div className="flex items-center bg-surface-50 dark:bg-slate-800/80 border border-surface-200 dark:border-slate-700 rounded-lg p-0.5">
               <span
-                className="px-2 text-surface-500 flex items-center space-x-1 cursor-help"
+                className="px-2 text-surface-500 dark:text-slate-400 flex items-center space-x-1 cursor-help"
                 onMouseEnter={() => setActiveTooltip('rounding')}
                 onMouseLeave={() => setActiveTooltip(null)}
               >
-                <Coins className="w-3.5 h-3.5 text-surface-500" />
+                <Coins className="w-3.5 h-3.5 text-surface-500 dark:text-slate-400" />
                 <span className="font-medium text-[11px]">Rounding:</span>
               </span>
               <button
@@ -212,8 +212,8 @@ export const CompactToolbar: React.FC<CompactToolbarProps> = ({
                 onClick={() => onRoundingRuleChange('exact')}
                 className={`px-2 py-1 rounded-md text-[11px] font-medium transition-all ${
                   roundingRule === 'exact'
-                    ? 'bg-white text-surface-900 shadow-xs border border-surface-200 font-bold'
-                    : 'text-surface-500 hover:text-surface-900'
+                    ? 'bg-white dark:bg-slate-900 text-surface-900 dark:text-slate-100 shadow-xs border border-surface-200 dark:border-slate-700 font-bold'
+                    : 'text-surface-500 dark:text-slate-400 hover:text-surface-900 dark:hover:text-slate-200'
                 }`}
               >
                 Exact
@@ -223,8 +223,8 @@ export const CompactToolbar: React.FC<CompactToolbarProps> = ({
                 onClick={() => onRoundingRuleChange('nearest_ten')}
                 className={`px-2 py-1 rounded-md text-[11px] font-medium transition-all ${
                   roundingRule === 'nearest_ten'
-                    ? 'bg-white text-surface-900 shadow-xs border border-surface-200 font-bold'
-                    : 'text-surface-500 hover:text-surface-900'
+                    ? 'bg-white dark:bg-slate-900 text-surface-900 dark:text-slate-100 shadow-xs border border-surface-200 dark:border-slate-700 font-bold'
+                    : 'text-surface-500 dark:text-slate-400 hover:text-surface-900 dark:hover:text-slate-200'
                 }`}
               >
                 Nearest 10
@@ -234,8 +234,8 @@ export const CompactToolbar: React.FC<CompactToolbarProps> = ({
                 onClick={() => onRoundingRuleChange('round_down')}
                 className={`px-2 py-1 rounded-md text-[11px] font-medium transition-all ${
                   roundingRule === 'round_down' || (roundingRule as string) === 'round_up'
-                    ? 'bg-white text-surface-900 shadow-xs border border-surface-200 font-bold'
-                    : 'text-surface-500 hover:text-surface-900'
+                    ? 'bg-white dark:bg-slate-900 text-surface-900 dark:text-slate-100 shadow-xs border border-surface-200 dark:border-slate-700 font-bold'
+                    : 'text-surface-500 dark:text-slate-400 hover:text-surface-900 dark:hover:text-slate-200'
                 }`}
               >
                 Round Down
@@ -253,9 +253,9 @@ export const CompactToolbar: React.FC<CompactToolbarProps> = ({
           </div>
 
           {/* PDF Language Pill */}
-          <div className="flex items-center bg-surface-50 border border-surface-200 rounded-lg p-0.5">
-            <span className="px-2 text-surface-500 flex items-center space-x-1">
-              <Globe className="w-3.5 h-3.5 text-surface-500" />
+          <div className="flex items-center bg-surface-50 dark:bg-slate-800/80 border border-surface-200 dark:border-slate-700 rounded-lg p-0.5">
+            <span className="px-2 text-surface-500 dark:text-slate-400 flex items-center space-x-1">
+              <Globe className="w-3.5 h-3.5 text-surface-500 dark:text-slate-400" />
               <span className="font-medium text-[11px]">Lang:</span>
             </span>
             <button
@@ -263,8 +263,8 @@ export const CompactToolbar: React.FC<CompactToolbarProps> = ({
               onClick={() => onPdfLanguageChange('en')}
               className={`px-2 py-1 rounded-md text-[11px] font-medium transition-all ${
                 pdfLanguage === 'en'
-                  ? 'bg-white text-surface-900 shadow-xs border border-surface-200 font-bold'
-                  : 'text-surface-500 hover:text-surface-900'
+                  ? 'bg-white dark:bg-slate-900 text-surface-900 dark:text-slate-100 shadow-xs border border-surface-200 dark:border-slate-700 font-bold'
+                  : 'text-surface-500 dark:text-slate-400 hover:text-surface-900 dark:hover:text-slate-200'
               }`}
             >
               EN
@@ -274,8 +274,8 @@ export const CompactToolbar: React.FC<CompactToolbarProps> = ({
               onClick={() => onPdfLanguageChange('hi')}
               className={`px-2 py-1 rounded-md text-[11px] font-medium transition-all ${
                 pdfLanguage === 'hi'
-                  ? 'bg-white text-surface-900 shadow-xs border border-surface-200 font-bold text-emerald-800'
-                  : 'text-surface-500 hover:text-surface-900'
+                  ? 'bg-white dark:bg-slate-900 text-emerald-900 dark:text-emerald-300 shadow-xs border border-surface-200 dark:border-slate-700 font-bold'
+                  : 'text-surface-500 dark:text-slate-400 hover:text-surface-900 dark:hover:text-slate-200'
               }`}
             >
               हिंदी
@@ -284,9 +284,9 @@ export const CompactToolbar: React.FC<CompactToolbarProps> = ({
         </div>
 
         {/* Included Counts Summary */}
-        <div className="text-[11px] font-medium text-surface-500 flex items-center space-x-2">
-          <span className="text-emerald-700 font-bold flex items-center space-x-1">
-            <Check className="w-3.5 h-3.5 text-emerald-600" />
+        <div className="text-[11px] font-medium text-surface-500 dark:text-slate-400 flex items-center space-x-2">
+          <span className="text-emerald-700 dark:text-emerald-400 font-bold flex items-center space-x-1">
+            <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
             <span>{includedCount} for PDF</span>
           </span>
           {excludedCount > 0 && (

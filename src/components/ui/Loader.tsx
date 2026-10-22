@@ -147,25 +147,25 @@ export const ProcessingLoader: React.FC<ProcessingLoaderProps> = ({
     <div
       role="status"
       aria-live="polite"
-      className={`max-w-md w-full mx-auto my-8 p-7 sm:p-9 rounded-2xl bg-white border border-surface-200/90 shadow-[0_4px_20px_-4px_rgba(15,23,42,0.06),0_1px_3px_0_rgba(15,23,42,0.04)] text-center flex flex-col items-center justify-center transition-all ${className}`}
+      className={`max-w-md w-full mx-auto my-8 p-7 sm:p-9 rounded-2xl bg-white dark:bg-slate-900 border border-surface-200/90 dark:border-slate-800 shadow-[0_4px_20px_-4px_rgba(15,23,42,0.06),0_1px_3px_0_rgba(15,23,42,0.04)] dark:shadow-2xl text-center flex flex-col items-center justify-center transition-all ${className}`}
     >
 
       {/* Minimal Enterprise Dual-Track Spinner */}
       <Loader size="xl" variant="brand" withGlow className="my-1" />
 
       {/* Main Title */}
-      <h3 className="text-sm sm:text-base font-semibold text-surface-900 tracking-tight mt-4">
+      <h3 className="text-sm sm:text-base font-semibold text-surface-900 dark:text-slate-100 tracking-tight mt-4">
         {title}
       </h3>
 
       {/* Indeterminate Micro-Progress Track */}
-      <div className="w-44 sm:w-52 h-1 bg-surface-100 rounded-full overflow-hidden relative my-3">
+      <div className="w-44 sm:w-52 h-1 bg-surface-100 dark:bg-slate-800 rounded-full overflow-hidden relative my-3">
         <div className="absolute inset-y-0 w-24 bg-gradient-to-r from-transparent via-emerald-500 to-transparent rounded-full animate-indeterminate-slide" />
       </div>
 
       {/* Dynamic Processing Status Description */}
       <p
-        className={`text-xs text-surface-500 font-medium min-h-[20px] max-w-xs leading-relaxed transition-opacity duration-200 ${
+        className={`text-xs text-surface-500 dark:text-slate-400 font-medium min-h-[20px] max-w-xs leading-relaxed transition-opacity duration-200 ${
           fadeState === 'fade-out' ? 'opacity-0' : 'opacity-100'
         }`}
       >
@@ -174,7 +174,7 @@ export const ProcessingLoader: React.FC<ProcessingLoaderProps> = ({
 
       {/* Enterprise Security & Privacy Footnote */}
       {showPrivacyBadge && (
-        <div className="mt-5 pt-4 w-full border-t border-surface-100 flex items-center justify-center gap-1.5 text-[11px] text-surface-400 font-medium select-none">
+        <div className="mt-5 pt-4 w-full border-t border-surface-100 dark:border-slate-800 flex items-center justify-center gap-1.5 text-[11px] text-surface-400 dark:text-slate-500 font-medium select-none">
           <ShieldCheck className="w-3.5 h-3.5 text-emerald-600/90 shrink-0" />
           <span>Client-Side Sandbox • Zero data leaves your browser</span>
         </div>
