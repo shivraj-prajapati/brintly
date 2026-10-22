@@ -138,6 +138,20 @@
   animation: float-reverse 5s ease-in-out infinite;
 }
 
+/* Minimal Enterprise Indeterminate Progress Slide */
+@keyframes indeterminate-slide {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(250%);
+  }
+}
+
+.animate-indeterminate-slide {
+  animation: indeterminate-slide 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
 /* ==========================================================================
    PRINT MEDIA RULES: Exact A4 Portrait Dimensions (4 slips per page)
    ========================================================================== */

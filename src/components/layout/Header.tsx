@@ -49,13 +49,13 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               type="button"
               onClick={onReset}
-              className="group flex items-center space-x-2.5 hover:opacity-90 transition-all focus:outline-none cursor-pointer select-none"
+              className="group flex items-center space-x-2.5 hover:opacity-90 transition-all focus:outline-none outline-none cursor-pointer select-none"
               title="Brintly — Return to Home"
             >
               <img
                 src="/logo/logo.png"
                 alt="Brintly Logo"
-                className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl shadow-xs object-cover group-hover:scale-105 transition-transform"
+                className="w-6 h-6 sm:w-7 sm:h-7 shadow-xs object-cover transition-transform"
               />
               <span className="font-logo text-xl sm:text-2xl font-black tracking-[-0.03em] text-black">
                 Brintly

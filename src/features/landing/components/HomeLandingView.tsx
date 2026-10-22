@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   FileSpreadsheet,
-  Sparkles,
   Scissors,
   Palette,
 } from 'lucide-react';
@@ -130,7 +129,7 @@ export const HomeLandingView: React.FC<HomeLandingViewProps> = ({
               type="button"
               onClick={onLoadDemo}
               disabled={isLoading}
-              className="inline-flex items-center px-4 py-1.2 rounded-full bg-white hover:bg-emerald-50 text-emerald-800 border border-emerald-300 shadow-2xs hover:shadow-xs font-bold text-xs transition-all cursor-pointer group"
+              className="inline-flex items-center px-4 py-2 rounded-full bg-white hover:bg-emerald-50 text-emerald-800 border border-emerald-300 shadow-2xs hover:shadow-xs font-bold text-xs transition-all cursor-pointer group"
             >
               <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-600 group-hover:scale-110 transition-transform" />
               <span>Try Demo Sheet (demo.xlsx)</span>
@@ -221,7 +220,7 @@ export const HomeLandingView: React.FC<HomeLandingViewProps> = ({
               </p>
             </div>
 
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-5 border border-white/10 space-y-1.5">
+            <div className="bg-white/10 backdrop-blur-sm rounded-2Fxl p-5 border border-white/10 space-y-1.5">
               <div className="text-emerald-400 font-mono text-xs font-bold">02</div>
               <h4 className="text-sm font-bold text-white">Review & Configure</h4>
               <p className="text-xs text-slate-300 leading-relaxed">

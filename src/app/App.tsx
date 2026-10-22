@@ -27,7 +27,8 @@ import type {
 import type { PdfTemplateId } from '../features/pdf/types/template.types';
 import { StorageKeys, getStoredConfig, setStoredConfig } from '../lib/storage';
 import { Button } from '../components/ui/Button';
-import { Download, Printer, Eye, Loader2 } from 'lucide-react';
+import { Loader, ProcessingLoader } from '../components/ui/Loader';
+import { Download, Printer, Eye } from 'lucide-react';
 
 export default function App() {
   // 1. Core State
@@ -285,15 +286,10 @@ export default function App() {
       {/* 2. Main Workspace */}
       <main className="flex-1 max-w-screen-2xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-2 sm:py-4">
         {isLoading ? (
-          <div className="bg-white rounded-3xl border border-surface-200 p-16 text-center shadow-card flex flex-col items-center justify-center space-y-4 my-8">
-            <div className="w-12 h-12 rounded-full border-3 border-emerald-600 border-t-transparent animate-spin" />
-            <div className="space-y-1">
-              <h3 className="text-base font-bold text-surface-900">Processing Excel Workbook</h3>
-              <p className="text-xs text-surface-500">
-                Detecting Hindi & English headers, section boundaries, and salary formulas...
-              </p>
-            </div>
-          </div>
+          <ProcessingLoader
+            title="Processing Excel Workbook"
+            showPrivacyBadge={true}
+          />
         ) : !workbook || currentStep === 'upload' ? (
           /* Step 1: Clean Website Landing View (Hero Upload + 1-Click Demo + Feature Showcase) */
           <HomeLandingView
@@ -372,7 +368,7 @@ export default function App() {
                   disabled={isExportingPdf || includedInPdfEmployees.length === 0}
                   leftIcon={
                     isExportingPdf ? (
-                      <Loader2 className="w-4 h-4 animate-spin text-white" />
+                      <Loader size="sm" variant="white" />
                     ) : (
                       <Download className="w-4 h-4" />
                     )
