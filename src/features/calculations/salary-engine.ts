@@ -8,13 +8,13 @@
  * 4. Net Salary Calculation (Gross - Advance - PF)
  * 5. Three Configurable Rounding Rules:
  *    - Rule 1: Exact Amount (Default)
- *    - Rule 2: Nearest Ten (5-and-Above Rule)
- *    - Rule 3: Round Any Non-Zero Last Digit Up
+ *    - Rule 2: Nearest Ten (> 5 Rounds Up, <= 5 Rounds Down: 10..15 -> 10, 16..19 -> 20, 123 -> 120, 125 -> 120)
+ *    - Rule 3: Round Down / Floor Last Digit (11..19 -> 10, 123 -> 120)
  */
 
 export type SalaryCalculationMode = 'formula' | 'excel_amount';
 
-export type SalaryRoundingRule = 'exact' | 'nearest_ten' | 'round_up';
+export type SalaryRoundingRule = 'exact' | 'nearest_ten' | 'round_down';
 
 export type PdfLanguage = 'en' | 'hi';
 
@@ -134,9 +134,12 @@ export function calculateNetAmount(
 /**
  * Apply configurable rounding rules to net salary:
  * 
- * Rule 1 (exact): Unchanged.
- * Rule 2 (nearest_ten): Nearest 10 with 5-and-above rule (standard mathematical rounding to nearest 10).
- * Rule 3 (round_up): If final digit is already zero, unchanged. Otherwise, round up to next multiple of 10.
+ * Rule 1 (exact): Unchanged exact integer without decimals.
+ * Rule 2 (nearest_ten): Threshold at > 5.
+ *   - If last digit is greater than 5 (6, 7, 8, 9) -> round up to next 10.
+ *   - If last digit is <= 5 (0, 1, 2, 3, 4, 5) -> round down to 10.
+ *   - e.g. 10, 11, 12, 14, 15 -> 10; 16, 17, 18, 19 -> 20; 123 -> 120; 125 -> 120; 126 -> 130
+ * Rule 3 (round_down): Floor only the last digit to 0 (affects only the units place, never hundreds: 11..19 -> 10, 123 -> 120, 129 -> 120).
  * 
  * Preserves negative values consistently without clamping to 0.
  */
@@ -145,29 +148,29 @@ export function applySalaryRounding(amount: number, rule: SalaryRoundingRule): n
 
   const isNegative = amount < 0;
   const absVal = Math.abs(amount);
+  const intVal = Math.round(absVal);
 
   if (rule === 'exact') {
     // Total Amount must NEVER have decimals under any rule - strictly clean integer
-    const rounded = Math.round(absVal);
-    return isNegative ? -rounded : rounded;
+    return isNegative ? -intVal : intVal;
   }
 
   if (rule === 'nearest_ten') {
-    // Standard mathematical rounding to nearest multiple of 10
-    // e.g. 34002 -> 34000, 34005 -> 34010, 34009 -> 34010
-    const roundedAbs = Math.round(absVal / 10) * 10;
+    // Rule 2: If last digit is > 5 then +10, otherwise 0
+    // e.g. 10, 11, 12, 14, 15 -> 10; 16, 17, 18, 19 -> 20; 123 -> 120; 125 -> 120; 126 -> 130
+    const lastDigit = intVal % 10;
+    const baseTen = Math.floor(intVal / 10) * 10;
+    const roundedAbs = lastDigit > 5 ? baseTen + 10 : baseTen;
     return isNegative ? -roundedAbs : roundedAbs;
   }
 
-  if (rule === 'round_up') {
-    // If the integer portion already ends with 0 and has no fractional part, leave unchanged.
-    // Otherwise round up to next multiple of 10.
-    // e.g. 34000 -> 34000, 34001 -> 34010, 34002 -> 34010, 34005 -> 34010, 34009 -> 34010
-    const roundedAbs = Math.ceil(absVal / 10) * 10;
+  if (rule === 'round_down' || (rule as string) === 'round_up') {
+    // Rule 3: Only the last digit is floored to 0 (11..19 -> 10, 123 -> 120, 129 -> 120)
+    const roundedAbs = Math.floor(intVal / 10) * 10;
     return isNegative ? -roundedAbs : roundedAbs;
   }
 
-  return Math.round(amount);
+  return intVal;
 }
 
 /**

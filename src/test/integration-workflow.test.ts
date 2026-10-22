@@ -83,14 +83,22 @@ describe('End-to-End Workflow Integration Test with JAY.xlsx', () => {
     expect(excelRec.netAmount).toBe(10300);
   });
 
-  it('6. Rounding Rules: Exact, Nearest Ten, and Round Any Non-Zero Digit Up', () => {
+  it('6. Rounding Rules: Exact, Nearest Ten (> 5 Up), and Round Down', () => {
     const amount = 34002;
     expect(applySalaryRounding(amount, 'exact')).toBe(34002);
     expect(applySalaryRounding(amount, 'nearest_ten')).toBe(34000);
-    expect(applySalaryRounding(amount, 'round_up')).toBe(34010);
+    expect(applySalaryRounding(amount, 'round_down')).toBe(34000);
 
-    expect(applySalaryRounding(34005, 'nearest_ten')).toBe(34010);
-    expect(applySalaryRounding(34000, 'round_up')).toBe(34000);
+    // Nearest Ten: 15 -> 10, 16 -> 20, 125 -> 120, 126 -> 130
+    expect(applySalaryRounding(15, 'nearest_ten')).toBe(10);
+    expect(applySalaryRounding(16, 'nearest_ten')).toBe(20);
+    expect(applySalaryRounding(125, 'nearest_ten')).toBe(120);
+    expect(applySalaryRounding(126, 'nearest_ten')).toBe(130);
+
+    // Round Down: 11..19 -> 10, 123 -> 120, 129 -> 120
+    expect(applySalaryRounding(19, 'round_down')).toBe(10);
+    expect(applySalaryRounding(123, 'round_down')).toBe(120);
+    expect(applySalaryRounding(129, 'round_down')).toBe(120);
   });
 
   it('7. PDF Column Language: English & Hindi labels dictionary', () => {

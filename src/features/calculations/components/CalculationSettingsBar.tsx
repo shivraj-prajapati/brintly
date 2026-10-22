@@ -146,17 +146,17 @@ export const CalculationSettingsBar: React.FC<CalculationSettingsBarProps> = ({
               />
               <div>
                 <span className="font-semibold text-surface-900 block">
-                  Rule 2: Nearest Ten (5-and-Above)
+                  Rule 2: Nearest 10 (&gt; 5 Up, &le; 5 Down)
                 </span>
                 <span className="text-[10px] text-surface-500 block mt-0.5">
-                  0–4 down, 5–9 up (e.g. ₹34,002 → ₹34,000; ₹34,005 → ₹34,010)
+                  Last digit &gt; 5 rounds up, &le; 5 rounds down (e.g. ₹15 → ₹10, ₹16 → ₹20, ₹123 → ₹120, ₹126 → ₹130)
                 </span>
               </div>
             </label>
 
             <label
               className={`flex items-start space-x-2.5 p-2.5 rounded-xl border text-xs cursor-pointer transition-all ${
-                roundingRule === 'round_up'
+                roundingRule === 'round_down' || (roundingRule as string) === 'round_up'
                   ? 'border-emerald-600 bg-emerald-50/60 ring-1 ring-emerald-600/20'
                   : 'border-surface-200 hover:bg-surface-50 bg-white'
               }`}
@@ -164,17 +164,17 @@ export const CalculationSettingsBar: React.FC<CalculationSettingsBarProps> = ({
               <input
                 type="radio"
                 name="roundRule"
-                value="round_up"
-                checked={roundingRule === 'round_up'}
-                onChange={() => onRoundingRuleChange('round_up')}
+                value="round_down"
+                checked={roundingRule === 'round_down' || (roundingRule as string) === 'round_up'}
+                onChange={() => onRoundingRuleChange('round_down')}
                 className="mt-0.5 text-emerald-600 focus:ring-emerald-500"
               />
               <div>
                 <span className="font-semibold text-surface-900 block">
-                  Rule 3: Round Non-Zero Digit Up
+                  Rule 3: Round Down (Cut Last Digit)
                 </span>
                 <span className="text-[10px] text-surface-500 block mt-0.5">
-                  Any non-zero last digit rounds up to 10 (e.g. ₹34,001 → ₹34,010)
+                  Always cuts last digit to 0 (e.g. ₹11–₹19 → ₹10, ₹123 → ₹120, ₹129 → ₹120)
                 </span>
               </div>
             </label>

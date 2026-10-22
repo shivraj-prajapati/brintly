@@ -231,23 +231,23 @@ export const CompactToolbar: React.FC<CompactToolbarProps> = ({
               </button>
               <button
                 type="button"
-                onClick={() => onRoundingRuleChange('round_up')}
+                onClick={() => onRoundingRuleChange('round_down')}
                 className={`px-2 py-1 rounded-md text-[11px] font-medium transition-all ${
-                  roundingRule === 'round_up'
+                  roundingRule === 'round_down' || (roundingRule as string) === 'round_up'
                     ? 'bg-white text-surface-900 shadow-xs border border-surface-200 font-bold'
                     : 'text-surface-500 hover:text-surface-900'
                 }`}
               >
-                Round Up
+                Round Down
               </button>
             </div>
 
             {/* Tooltip */}
             {activeTooltip === 'rounding' && (
-              <div className="absolute top-full left-0 mt-1 z-30 w-64 p-2 bg-slate-900 text-white rounded-lg shadow-xl text-[11px] leading-relaxed animate-in fade-in">
-                <strong>Exact:</strong> Keeps amount unchanged.<br />
-                <strong>Nearest 10:</strong> 0-4 down, 5-9 up.<br />
-                <strong>Round Up:</strong> Non-zero last digit rounds up to 10.
+              <div className="absolute top-full left-0 mt-1 z-30 w-72 p-2.5 bg-slate-900 text-white rounded-lg shadow-xl text-[11px] leading-relaxed animate-in fade-in space-y-1">
+                <div><strong>Exact:</strong> Exact net salary without rounding.</div>
+                <div><strong>Nearest 10:</strong> If last digit &gt; 5 rounds up, &le; 5 rounds down (e.g. 15 &rarr; 10, 16 &rarr; 20, 123 &rarr; 120, 126 &rarr; 130).</div>
+                <div><strong>Round Down:</strong> Cuts only last digit to 0 (e.g. 11&ndash;19 &rarr; 10, 123 &rarr; 120).</div>
               </div>
             )}
           </div>

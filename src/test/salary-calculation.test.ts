@@ -111,33 +111,55 @@ describe('Salary Rounding Rules', () => {
     expect(applySalaryRounding(10887.5, 'exact')).toBe(10888);
   });
 
-  it('Rule 2: Nearest Ten (5-and-Above Rule)', () => {
-    // Last digit 0-4: round down
-    expect(applySalaryRounding(34002, 'nearest_ten')).toBe(34000);
-    expect(applySalaryRounding(12004, 'nearest_ten')).toBe(12000);
+  it('Rule 2: Nearest Ten (> 5 rounds up, <= 5 rounds down)', () => {
+    // User specification: 10, 11, 12, 14, 15 -> 10 (last digit <= 5 rounds down)
+    expect(applySalaryRounding(10, 'nearest_ten')).toBe(10);
+    expect(applySalaryRounding(11, 'nearest_ten')).toBe(10);
+    expect(applySalaryRounding(12, 'nearest_ten')).toBe(10);
+    expect(applySalaryRounding(14, 'nearest_ten')).toBe(10);
+    expect(applySalaryRounding(15, 'nearest_ten')).toBe(10);
 
-    // Last digit 5-9: round up
-    expect(applySalaryRounding(34005, 'nearest_ten')).toBe(34010);
+    // User specification: 16, 17, 18, 19 -> 20 (last digit > 5 rounds up)
+    expect(applySalaryRounding(16, 'nearest_ten')).toBe(20);
+    expect(applySalaryRounding(17, 'nearest_ten')).toBe(20);
+    expect(applySalaryRounding(18, 'nearest_ten')).toBe(20);
+    expect(applySalaryRounding(19, 'nearest_ten')).toBe(20);
+
+    // Three-digit examples: applies to last unit digit, not hundreds
+    expect(applySalaryRounding(123, 'nearest_ten')).toBe(120);
+    expect(applySalaryRounding(125, 'nearest_ten')).toBe(120);
+    expect(applySalaryRounding(126, 'nearest_ten')).toBe(130);
+    expect(applySalaryRounding(129, 'nearest_ten')).toBe(130);
+
+    expect(applySalaryRounding(34002, 'nearest_ten')).toBe(34000);
+    expect(applySalaryRounding(34005, 'nearest_ten')).toBe(34000);
+    expect(applySalaryRounding(34006, 'nearest_ten')).toBe(34010);
     expect(applySalaryRounding(34009, 'nearest_ten')).toBe(34010);
-    expect(applySalaryRounding(12005, 'nearest_ten')).toBe(12010);
-    expect(applySalaryRounding(13780, 'nearest_ten')).toBe(13780);
   });
 
-  it('Rule 3: Round Any Non-Zero Last Digit Up', () => {
-    // If last digit is already 0, unchanged
-    expect(applySalaryRounding(34000, 'round_up')).toBe(34000);
-    expect(applySalaryRounding(15000, 'round_up')).toBe(15000);
+  it('Rule 3: Round Down / Floor Last Digit (11..19 -> 10, 123 -> 120)', () => {
+    // User specification: 10, 11, 12, 14, 15, 16, 17, 18, 19 -> 10
+    expect(applySalaryRounding(10, 'round_down')).toBe(10);
+    expect(applySalaryRounding(11, 'round_down')).toBe(10);
+    expect(applySalaryRounding(12, 'round_down')).toBe(10);
+    expect(applySalaryRounding(14, 'round_down')).toBe(10);
+    expect(applySalaryRounding(15, 'round_down')).toBe(10);
+    expect(applySalaryRounding(16, 'round_down')).toBe(10);
+    expect(applySalaryRounding(17, 'round_down')).toBe(10);
+    expect(applySalaryRounding(18, 'round_down')).toBe(10);
+    expect(applySalaryRounding(19, 'round_down')).toBe(10);
 
-    // Otherwise round up to next multiple of 10
-    expect(applySalaryRounding(34001, 'round_up')).toBe(34010);
-    expect(applySalaryRounding(34002, 'round_up')).toBe(34010);
-    expect(applySalaryRounding(34005, 'round_up')).toBe(34010);
-    expect(applySalaryRounding(34009, 'round_up')).toBe(34010);
+    // Only applies to last unit value, not 100s value: 123 -> 120
+    expect(applySalaryRounding(123, 'round_down')).toBe(120);
+    expect(applySalaryRounding(125, 'round_down')).toBe(120);
+    expect(applySalaryRounding(129, 'round_down')).toBe(120);
+    expect(applySalaryRounding(34009, 'round_down')).toBe(34000);
   });
 
   it('preserves negative net salary under rounding rules', () => {
-    expect(applySalaryRounding(-34002, 'nearest_ten')).toBe(-34000);
-    expect(applySalaryRounding(-34005, 'nearest_ten')).toBe(-34010);
-    expect(applySalaryRounding(-34002, 'round_up')).toBe(-34010);
+    expect(applySalaryRounding(-15, 'nearest_ten')).toBe(-10);
+    expect(applySalaryRounding(-16, 'nearest_ten')).toBe(-20);
+    expect(applySalaryRounding(-123, 'round_down')).toBe(-120);
+    expect(applySalaryRounding(-129, 'round_down')).toBe(-120);
   });
 });
