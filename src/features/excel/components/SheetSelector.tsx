@@ -26,14 +26,16 @@ export const SheetSelector: React.FC<SheetSelectorProps> = ({
 
         {sheetNames.map((name) => {
           const isActive = name === activeSheetName;
+          const isParsed = workbook.parsedSheetNames.includes(name);
           const sheet = workbook.sheets[name];
-          const rowCount = sheet ? sheet.rowCount : 0;
+          const rowCount = sheet ? sheet.rowCount : null;
 
           return (
             <button
               key={name}
               type="button"
               onClick={() => onSelectSheet(name)}
+              title={isParsed ? undefined : 'Click to load this sheet'}
               className={`flex items-center space-x-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap flex-shrink-0 border ${
                 isActive
                   ? 'bg-white dark:bg-slate-800 text-emerald-800 dark:text-emerald-300 border-emerald-300 dark:border-emerald-700 shadow-sm font-semibold'
@@ -42,15 +44,21 @@ export const SheetSelector: React.FC<SheetSelectorProps> = ({
             >
               <Table className={`w-3.5 h-3.5 ${isActive ? 'text-emerald-600 dark:text-emerald-400' : 'text-surface-400 dark:text-slate-500'}`} />
               <span>{name}</span>
-              <span
-                className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
-                  isActive
-                    ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300'
-                    : 'bg-surface-200/80 dark:bg-slate-700 text-surface-600 dark:text-slate-300'
-                }`}
-              >
-                {rowCount}
-              </span>
+              {/* Row count badge — only shown once the sheet has been parsed */}
+              {rowCount !== null ? (
+                <span
+                  className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
+                    isActive
+                      ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300'
+                      : 'bg-surface-200/80 dark:bg-slate-700 text-surface-600 dark:text-slate-300'
+                  }`}
+                >
+                  {rowCount}
+                </span>
+              ) : (
+                /* Dot indicator for not-yet-loaded sheets */
+                <span className="w-1.5 h-1.5 rounded-full bg-surface-300 dark:bg-slate-600 inline-block" title="Not yet loaded" />
+              )}
             </button>
           );
         })}

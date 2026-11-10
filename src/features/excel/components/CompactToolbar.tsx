@@ -64,14 +64,16 @@ export const CompactToolbar: React.FC<CompactToolbarProps> = ({
 
           {workbook.meta.sheetNames.map((name) => {
             const isSelected = name === activeSheetName;
+            const isParsed = workbook.parsedSheetNames.includes(name);
             const sheet = workbook.sheets[name];
-            const count = sheet ? sheet.employees.length : 0;
+            const count = sheet ? sheet.employees.length : null;
 
             return (
               <button
                 key={name}
                 type="button"
                 onClick={() => onSelectSheet(name)}
+                title={isParsed ? undefined : 'Click to load this sheet'}
                 className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap flex-shrink-0 border ${
                   isSelected
                     ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
@@ -79,15 +81,20 @@ export const CompactToolbar: React.FC<CompactToolbarProps> = ({
                 }`}
               >
                 <span>{name}</span>
-                <span
-                  className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
-                    isSelected
-                      ? 'bg-emerald-800 text-white'
-                      : 'bg-surface-200/80 dark:bg-slate-700 text-surface-600 dark:text-slate-300'
-                  }`}
-                >
-                  {count}
-                </span>
+                {count !== null ? (
+                  <span
+                    className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
+                      isSelected
+                        ? 'bg-emerald-800 text-white'
+                        : 'bg-surface-200/80 dark:bg-slate-700 text-surface-600 dark:text-slate-300'
+                    }`}
+                  >
+                    {count}
+                  </span>
+                ) : (
+                  /* Small grey dot = not yet loaded */
+                  <span className="w-1.5 h-1.5 rounded-full bg-surface-300 dark:bg-slate-500 inline-block opacity-70" />
+                )}
               </button>
             );
           })}

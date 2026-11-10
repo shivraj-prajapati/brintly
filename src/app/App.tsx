@@ -12,6 +12,7 @@ import { A4PageSheet } from '../features/pdf/components/A4PageSheet';
 import { paginateEmployeesForA4, calculateA4PageCount } from '../features/pdf/utils/pagination';
 import { downloadSalarySlipsPdf } from '../features/pdf/services/pdf-export';
 import { ExcelParserService } from '../features/excel/services/excel-parser';
+import { useSheetWorker } from '../features/excel/workers/useSheetWorker';
 import {
   calculateEmployeeRecord,
   type SalaryCalculationMode,
@@ -35,7 +36,11 @@ export default function App() {
   const [workbook, setWorkbook] = useState<ParsedWorkbook | null>(null);
   const [activeSheetName, setActiveSheetName] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isSheetLoading, setIsSheetLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Web Worker hook — parses sheets off the main thread
+  const { parseSheetInWorker, cancelCurrentParse } = useSheetWorker();
 
   // 2. Workflow & Persistent Configuration State (Saved in LocalStorage)
   const [currentStep, setCurrentStep] = useState<WorkflowStep>('upload');
@@ -91,12 +96,13 @@ export default function App() {
   const [exportProgress, setExportProgress] = useState<number>(0);
   const offscreenPrintRef = useRef<HTMLDivElement>(null);
 
-  // Handle Excel file upload: Direct jump to spreadsheet view
+  // Handle Excel file upload: parses ONLY the first sheet immediately so the
+  // browser never hangs, even for large multi-sheet workbooks.
   const handleFileUpload = useCallback(async (file: File) => {
     setIsLoading(true);
     setError(null);
     try {
-      const parsed = await ExcelParserService.parseFile(file);
+      const parsed = await ExcelParserService.parseFile(file); // lazy – first sheet only
       setWorkbook(parsed);
       setActiveSheetName(parsed.defaultSheet);
       setEmployeeFieldOverrides({});
@@ -112,6 +118,56 @@ export default function App() {
       setIsLoading(false);
     }
   }, []);
+
+  /**
+   * Sheet selector — uses a Web Worker to parse sheets off the main thread.
+   *
+   * WHY WEB WORKER (not setTimeout):
+   *   setTimeout(0) only delays when work starts — the parsing still runs on
+   *   the main thread and blocks the UI for 100-300ms per sheet, causing
+   *   "Page Unresponsive" after repeated switches.
+   *
+   *   A Web Worker runs on a SEPARATE OS thread. The main thread stays free
+   *   to render, respond to clicks, and animate — always. No freezes possible.
+   *
+   * RAPID SWITCHING:
+   *   If the user clicks a second sheet before the first finishes parsing,
+   *   cancelCurrentParse() terminates the old Worker so there's never a
+   *   "pile-up" of queued work on the background thread.
+   */
+  const handleSelectSheet = useCallback(async (sheetName: string) => {
+    if (!workbook) return;
+
+    // Already parsed — switch instantly, zero cost
+    if (workbook.parsedSheetNames.includes(sheetName)) {
+      setActiveSheetName(sheetName);
+      setEmployeeFieldOverrides({});
+      setEmployeeSelectionOverrides({});
+      return;
+    }
+
+    // Cancel any currently running Worker parse (user switched again)
+    cancelCurrentParse();
+
+    setIsSheetLoading(true);
+    setError(null);
+
+    try {
+      const { updatedWorkbook } = await parseSheetInWorker(workbook, sheetName);
+      setWorkbook(updatedWorkbook);
+      setActiveSheetName(sheetName);
+      setEmployeeFieldOverrides({});
+      setEmployeeSelectionOverrides({});
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError(`Failed to load sheet "${sheetName}".`);
+      }
+    } finally {
+      setIsSheetLoading(false);
+    }
+  }, [workbook, parseSheetInWorker, cancelCurrentParse]);
 
   // Handle 1-Click Demo File Load (demo.xlsx - Safe & Generic)
   const handleLoadDemo = useCallback(async () => {
@@ -290,6 +346,12 @@ export default function App() {
             title="Processing Excel Workbook"
             showPrivacyBadge={true}
           />
+        ) : isSheetLoading ? (
+          <ProcessingLoader
+            title="Loading Sheet…"
+            description="Parsing employee records for this worksheet."
+            showPrivacyBadge={false}
+          />
         ) : !workbook || currentStep === 'upload' ? (
           /* Step 1: Clean Website Landing View (Hero Upload + 1-Click Demo + Feature Showcase) */
           <HomeLandingView
@@ -318,7 +380,7 @@ export default function App() {
             <CompactToolbar
               workbook={workbook}
               activeSheetName={activeSheetName}
-              onSelectSheet={setActiveSheetName}
+              onSelectSheet={handleSelectSheet}
               calculationMode={calculationMode}
               onCalculationModeChange={setCalculationMode}
               roundingRule={roundingRule}

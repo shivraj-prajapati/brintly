@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { resolveEffectiveTheme, applyThemeToDom, type ThemeMode } from '../lib/theme.tsx';
+import { resolveEffectiveTheme, applyThemeToDom } from '../lib/theme.tsx';
 import { StorageKeys } from '../lib/storage';
 
 describe('Dark Mode & Theme System', () => {

@@ -12,7 +12,9 @@ import { getColumnLetter } from '../utils/formatters';
 
 export class ExcelParserService {
   /**
-   * Parse an uploaded File object (.xlsx, .xls) into structured salary workbook
+   * Parse an uploaded File object (.xlsx, .xls) — parses ONLY the first sheet
+   * immediately. All remaining sheets are stored raw and parsed on demand via
+   * parseSheetOnDemand().
    */
   public static async parseFile(file: File): Promise<ParsedWorkbook> {
     const validExtensions = ['.xlsx', '.xls'];
@@ -25,7 +27,7 @@ export class ExcelParserService {
 
     try {
       const arrayBuffer = await file.arrayBuffer();
-      return this.parseArrayBuffer(arrayBuffer, file.name, file.size, file.lastModified);
+      return this.parseFirstSheetOnly(arrayBuffer, file.name, file.size, file.lastModified);
     } catch (err: unknown) {
       if (err instanceof Error) {
         throw new Error(err.message || 'Failed to process Excel workbook.');
@@ -35,7 +37,55 @@ export class ExcelParserService {
   }
 
   /**
-   * Parse array buffer directly (used for both file uploads and testing)
+   * Lazy entry-point: reads the workbook index and parses ONLY the first
+   * sheet immediately. The original ArrayBuffer is stored so each subsequent
+   * sheet can be parsed inside a Web Worker (off the main thread).
+   */
+  public static parseFirstSheetOnly(
+    buffer: ArrayBuffer,
+    fileName: string = 'salary-sheet.xlsx',
+    fileSize: number = 0,
+    lastModified?: number
+  ): ParsedWorkbook {
+    const workbook = XLSX.read(buffer, {
+      type: 'array',
+      cellDates: true,
+      cellFormula: true,
+    });
+
+    if (!workbook.SheetNames || workbook.SheetNames.length === 0) {
+      throw new Error('The uploaded Excel workbook contains no valid sheets.');
+    }
+
+    const firstSheetName = workbook.SheetNames[0];
+    const firstWorksheet = workbook.Sheets[firstSheetName];
+    if (!firstWorksheet) {
+      throw new Error('The first sheet in the workbook could not be read.');
+    }
+
+    // Parse only the first sheet on the main thread
+    const firstSheetData = this.parseWorksheet(firstWorksheet, firstSheetName);
+
+    return {
+      meta: {
+        fileName,
+        fileSize,
+        sheetNames: workbook.SheetNames,
+        lastModified,
+        uploadedAt: new Date(),
+      },
+      sheets: { [firstSheetName]: firstSheetData },
+      parsedSheetNames: [firstSheetName],
+      defaultSheet: firstSheetName,
+      // Keep the original buffer so the Worker can re-read any sheet
+      // without touching the main thread.
+      _rawBuffer: buffer,
+    };
+  }
+
+  /**
+   * Parse array buffer directly — parses ALL sheets at once.
+   * Used only by unit tests (which need full workbook access up-front).
    */
   public static parseArrayBuffer(
     buffer: ArrayBuffer,
@@ -54,13 +104,10 @@ export class ExcelParserService {
     }
 
     const sheets: Record<string, SheetData> = {};
-
     for (const sheetName of workbook.SheetNames) {
       const worksheet = workbook.Sheets[sheetName];
       if (!worksheet) continue;
-
-      const sheetData = this.parseWorksheet(worksheet, sheetName);
-      sheets[sheetName] = sheetData;
+      sheets[sheetName] = this.parseWorksheet(worksheet, sheetName);
     }
 
     return {
@@ -72,7 +119,9 @@ export class ExcelParserService {
         uploadedAt: new Date(),
       },
       sheets,
+      parsedSheetNames: workbook.SheetNames,
       defaultSheet: workbook.SheetNames[0],
+      _rawBuffer: buffer,
     };
   }
 

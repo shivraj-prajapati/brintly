@@ -74,8 +74,17 @@ export interface WorkbookMeta {
 
 export interface ParsedWorkbook {
   meta: WorkbookMeta;
+  /** Fully parsed sheets (populated lazily, one per selection). */
   sheets: Record<string, SheetData>;
+  /** Names of sheets that have been parsed so far. */
+  parsedSheetNames: string[];
   defaultSheet: string;
+  /**
+   * The original file ArrayBuffer. Kept so each sheet can be parsed
+   * inside a Web Worker (background thread) without blocking the UI.
+   * @internal  Do NOT use this outside of ExcelParserService / useWorkbook.
+   */
+  _rawBuffer: ArrayBuffer;
 }
 
 export type WorkflowStep = 'upload' | 'inspect' | 'preview' | 'export';
